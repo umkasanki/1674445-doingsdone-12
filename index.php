@@ -49,6 +49,19 @@ $tasksList = [
     ]
 ]
 
+// вопрос: почему если фунцию определяю на этой стоке, получаю ошибку?
+// "Parse error: syntax error, unexpected 'function' (T_FUNCTION) in C:\OpenServer\domains\doingsdone\index.php on line 52"
+//function getTacksCount(array $tasksList = [], string $taskCategoryName = '') {
+//    $tasksCount = 0;
+//
+//    foreach ($tasksList as $task) {
+//        if ($task['taskCategory'] === $taskCategoryName) {
+//            $tasksCount++;
+//        }
+//    }
+//
+//    return $tasksCount;
+//}
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -91,10 +104,28 @@ $tasksList = [
 
                 <nav class="main-navigation">
                     <ul class="main-navigation__list">
-                        <?php foreach ($tasksCategories as $category): ?>
+                        <?php
+                            // а если определяю тут - ошибки нет
+                            function getTacksCount(array $tasksList = [], string $taskCategoryName = '') {
+                                $tasksCount = 0;
+
+                                foreach ($tasksList as $task) {
+                                    if ($task['taskCategory'] === $taskCategoryName) {
+                                        $tasksCount++;
+                                    }
+                                }
+
+                                return $tasksCount;
+                            }
+                            
+                            foreach ($tasksCategories as $category): ?>
                             <li class="main-navigation__list-item">
                                 <a class="main-navigation__list-item-link" href="#"><?php print($category) ?></a>
-                                <span class="main-navigation__list-item-count">0</span>
+                                <span class="main-navigation__list-item-count">
+                                    <?php
+                                        print(getTacksCount($tasksList, $category));
+                                    ?>
+                                </span>
                             </li>
                         <?php endforeach; ?>
                     </ul>
