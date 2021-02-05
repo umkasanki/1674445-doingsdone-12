@@ -47,8 +47,19 @@ $tasksList = [
         'taskCategory' => 'Домашние дела',
         'taskCompleteStatus' => false,
     ]
-]
+];
 
+function getTacksCount(array $tasksList = [], string $taskCategoryName = '') {
+    $tasksCount = 0;
+
+    foreach ($tasksList as $task) {
+        if ($task['taskCategory'] === $taskCategoryName) {
+            $tasksCount++;
+        }
+    }
+
+    return $tasksCount;
+}
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -91,10 +102,15 @@ $tasksList = [
 
                 <nav class="main-navigation">
                     <ul class="main-navigation__list">
-                        <?php foreach ($tasksCategories as $category): ?>
+                        <?php
+                        foreach ($tasksCategories as $category): ?>
                             <li class="main-navigation__list-item">
                                 <a class="main-navigation__list-item-link" href="#"><?php print($category) ?></a>
-                                <span class="main-navigation__list-item-count">0</span>
+                                <span class="main-navigation__list-item-count">
+                                    <?php
+                                    print(getTacksCount($tasksList, $category));
+                                    ?>
+                                </span>
                             </li>
                         <?php endforeach; ?>
                     </ul>
