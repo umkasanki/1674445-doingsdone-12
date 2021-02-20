@@ -52,9 +52,14 @@
             <?php foreach ($tasksList as $task): ?>
                 <?php if (!$show_complete_tasks && $task['taskCompleteStatus']) { continue; } ?>
 
-                <tr class="tasks__item task <?php if ($task['taskCompleteStatus']) {
-                    print('task--completed');
-                } ?>">
+                <tr class="tasks__item task  <?php
+                    if ($task['taskCompleteStatus']) {
+                        print('task--completed');
+                    }
+                    if (checkTaskUrgency($task['taskCompleteDate'])) {
+                        print('task--important');
+                    }
+                ?>">
                     <td class="task__select">
                         <label class="checkbox task__checkbox">
                             <?php if ($task['taskCompleteStatus']): ?>

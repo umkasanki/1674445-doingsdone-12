@@ -14,25 +14,25 @@ $tasksCategories = [
 $tasksList = [
     [
         'taskName' => 'Собеседование в IT компании',
-        'taskCompleteDate' => '	01.12.2019',
+        'taskCompleteDate' => '	01.03.2021',
         'taskCategory' => 'Работа',
         'taskCompleteStatus' => true,
     ],
     [
         'taskName' => 'Выполнить тестовое задание',
-        'taskCompleteDate' => '25.12.2019',
+        'taskCompleteDate' => '25.02.2021',
         'taskCategory' => 'Работа',
         'taskCompleteStatus' => false,
     ],
     [
         'taskName' => 'Сделать задание первого раздела',
-        'taskCompleteDate' => '21.12.2019',
+        'taskCompleteDate' => '21.02.2021',
         'taskCategory' => 'Учеба',
         'taskCompleteStatus' => false,
     ],
     [
         'taskName' => 'Встреча с другом',
-        'taskCompleteDate' => '22.12.2019',
+        'taskCompleteDate' => '02.03.2021',
         'taskCategory' => 'Входящие',
         'taskCompleteStatus' => false,
     ],
@@ -60,7 +60,26 @@ function getTacksCount(array $tasksList = [], string $taskCategoryName = '') {
     }
 
     return $tasksCount;
-};
+}
+
+function checkTaskUrgency($taskCompleteDate) {
+    $isTaskUrgent = false;
+
+    if ($taskCompleteDate === null) {
+        return $isTaskUrgent;
+    }
+
+    $currTimestamp = time();
+    $completeTimestamp = strtotime($taskCompleteDate);
+    $leftTimestamp = strtotime($taskCompleteDate) - time();
+    $leftHours = round($leftTimestamp / 3600);
+
+    if ($leftHours <= 24 && $leftHours > 0) {
+        $isTaskUrgent = true;
+    }
+
+    return $isTaskUrgent;
+}
 
 require ('helpers.php');
 
