@@ -5,8 +5,8 @@ CREATE DATABASE doingsdone
 USE doingsdone;
 
 CREATE TABLE `categories` (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    can_name VARCHAR(128) NOT NULL UNIQUE,
+    cat_id INT AUTO_INCREMENT PRIMARY KEY,
+    cat_name VARCHAR(128) NOT NULL UNIQUE,
     user_id INT UNSIGNED NOT NULL
 );
 
