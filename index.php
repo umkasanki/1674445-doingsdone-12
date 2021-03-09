@@ -2,6 +2,16 @@
 // показывать или нет выполненные задачи
 $show_complete_tasks = rand(0, 1);
 
+
+$conn = mysqli_connect('mysql-5.7-33067.database.nitro', 'nitro', 'nitro', 'doit');
+if ($conn === false) {
+    print_r('DB connection error' . mysqli_connect_error());
+}
+
+mysqli_set_charset($conn, 'utf8');
+
+
+
 $tasksCategories = [
     "Входящие",
     "Учеба",
