@@ -2,7 +2,7 @@
 // показывать или нет выполненные задачи
 $show_complete_tasks = rand(0, 1);
 
-
+// db queries
 $conn = mysqli_connect('mysql-5.7-33067.database.nitro', 'nitro', 'nitro', 'doit');
 if ($conn === false) {
     print_r('DB connection error' . mysqli_connect_error());
@@ -10,60 +10,25 @@ if ($conn === false) {
 
 mysqli_set_charset($conn, 'utf8');
 
+$getCategoriesQr = "SELECT * FROM `categories` WHERE `user_id` = 1";
+$getTasksQr = "SELECT * FROM `tasks` WHERE `user_id` = 1";
 
+$getCategoriesQrRes = mysqli_query($conn, $getCategoriesQr);
+$getTasksQrRes = mysqli_query($conn, $getTasksQr);
 
-$tasksCategories = [
-    "Входящие",
-    "Учеба",
-    "Работа",
-    "Домашние дела",
-    "Авто"
-];
+if (!$getCategoriesQrRes || !$getTasksQrRes) {
+    print_r('MySQL error:' . mysqli_error($conn));
+}
 
-$tasksList = [
-    [
-        'taskName' => 'Собеседование в IT компании',
-        'taskCompleteDate' => '	01.12.2019',
-        'taskCategory' => 'Работа',
-        'taskCompleteStatus' => true,
-    ],
-    [
-        'taskName' => 'Выполнить тестовое задание',
-        'taskCompleteDate' => '25.12.2019',
-        'taskCategory' => 'Работа',
-        'taskCompleteStatus' => false,
-    ],
-    [
-        'taskName' => 'Сделать задание первого раздела',
-        'taskCompleteDate' => '21.12.2019',
-        'taskCategory' => 'Учеба',
-        'taskCompleteStatus' => false,
-    ],
-    [
-        'taskName' => 'Встреча с другом',
-        'taskCompleteDate' => '22.12.2019',
-        'taskCategory' => 'Входящие',
-        'taskCompleteStatus' => false,
-    ],
-    [
-        'taskName' => 'Купить корм для кота',
-        'taskCompleteDate' => null,
-        'taskCategory' => 'Домашние дела',
-        'taskCompleteStatus' => false,
-    ],
-    [
-        'taskName' => 'Купить корм для кота',
-        'taskCompleteDate' => null,
-        'taskCategory' => 'Домашние дела',
-        'taskCompleteStatus' => false,
-    ]
-];
+$tasksCategories = mysqli_fetch_all($getCategoriesQrRes, MYSQLI_ASSOC);
+$tasksList = mysqli_fetch_all($getTasksQrRes, MYSQLI_ASSOC);
+// db queries end
 
-function getTacksCount(array $tasksList = [], string $taskCategoryName = '') {
+function getTacksCount(array $tasksList = [], int $taskCategoryId = 0) {
     $tasksCount = 0;
 
     foreach ($tasksList as $task) {
-        if ($task['taskCategory'] === $taskCategoryName) {
+        if ($task['category_id'] == $taskCategoryId) {
             $tasksCount++;
         }
     }
@@ -115,10 +80,12 @@ function getTacksCount(array $tasksList = [], string $taskCategoryName = '') {
                         <?php
                         foreach ($tasksCategories as $category): ?>
                             <li class="main-navigation__list-item">
-                                <a class="main-navigation__list-item-link" href="#"><?php print($category) ?></a>
+                                <a class="main-navigation__list-item-link" href="#">
+                                    <?php print($category['cat_name']); ?>
+                                </a>
                                 <span class="main-navigation__list-item-count">
                                     <?php
-                                    print(getTacksCount($tasksList, $category));
+                                    print(getTacksCount($tasksList, $category['cat_id']));
                                     ?>
                                 </span>
                             </li>
@@ -158,19 +125,21 @@ function getTacksCount(array $tasksList = [], string $taskCategoryName = '') {
 
                 <table class="tasks">
                     <?php foreach ($tasksList as $task): ?>
-                        <?php if (!$show_complete_tasks && $task['taskCompleteStatus']) { continue; } ?>
+                        <?php if (!$show_complete_tasks && $task['status']) { continue; } ?>
 
-                        <tr class="tasks__item task <?php if ($task['taskCompleteStatus']) {
+                        <tr class="tasks__item task <?php if ($task['status']) {
                             print('task--completed');
                         } ?>">
                             <td class="task__select">
                                 <label class="checkbox task__checkbox">
-                                    <?php if ($task['taskCompleteStatus']): ?>
+                                    <?php if ($task['status']): ?>
                                         <input class="checkbox__input visually-hidden" type="checkbox" checked>
                                     <?php else: ?>
                                         <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="1">
                                     <?php endif; ?>
-                                    <span class="checkbox__text"><?php print($task['taskName']); ?></span>
+                                    <span class="checkbox__text">
+                                        <?php print($task['name']); ?>
+                                    </span>
                                 </label>
                             </td>
 
@@ -178,7 +147,7 @@ function getTacksCount(array $tasksList = [], string $taskCategoryName = '') {
                                 <a class="download-link" href="#">Home.psd</a>
                             </td>
 
-                            <td class="task__date"><?php print($task['taskCompleteDate']); ?></td>
+                            <td class="task__date"><?php print($task['expire_date']); ?></td>
                         </tr>
                     <?php endforeach; ?>
                 </table>
