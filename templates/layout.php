@@ -1,49 +1,9 @@
-<?php
-
-$siteTitle = 'Дела в порядке';
-$show_complete_tasks = rand(0, 1);
-
-// db queries
-$conn = mysqli_connect('mysql-5.7-33067.database.nitro', 'nitro', 'nitro', 'doit');
-if ($conn === false) {
-    print_r('DB connection error' . mysqli_connect_error());
-}
-
-mysqli_set_charset($conn, 'utf8');
-
-$getCategoriesQr = "SELECT * FROM `categories` WHERE `user_id` = 1";
-$getTasksQr = "SELECT * FROM `tasks` WHERE `user_id` = 1";
-
-$getCategoriesQrRes = mysqli_query($conn, $getCategoriesQr);
-$getTasksQrRes = mysqli_query($conn, $getTasksQr);
-
-if (!$getCategoriesQrRes || !$getTasksQrRes) {
-    print_r('MySQL error:' . mysqli_error($conn));
-}
-
-$tasksCategories = mysqli_fetch_all($getCategoriesQrRes, MYSQLI_ASSOC);
-$tasksList = mysqli_fetch_all($getTasksQrRes, MYSQLI_ASSOC);
-// db queries end
-
-function getTacksCount(array $tasksList = [], int $taskCategoryId = 0) {
-    $tasksCount = 0;
-
-    foreach ($tasksList as $task) {
-        if ($task['category_id'] == $taskCategoryId) {
-            $tasksCount++;
-        }
-    }
-
-    return $tasksCount;
-}
-
-?>
 <!DOCTYPE html>
 <html lang="ru">
 
 <head>
     <meta charset="UTF-8">
-    <title>Дела в порядке</title>
+    <title><?php print($pageTitle); ?></title>
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/flatpickr.min.css">
@@ -73,88 +33,7 @@ function getTacksCount(array $tasksList = [], int $taskCategoryId = 0) {
             </div>
         </header>
 
-        <div class="content">
-            <section class="content__side">
-                <h2 class="content__side-heading">Проекты</h2>
-
-                <nav class="main-navigation">
-                    <ul class="main-navigation__list">
-                        <?php
-                        foreach ($tasksCategories as $category): ?>
-                            <li class="main-navigation__list-item">
-                                <a class="main-navigation__list-item-link" href="#">
-                                    <?php print($category['cat_name']); ?>
-                                </a>
-                                <span class="main-navigation__list-item-count">
-                                    <?php
-                                    print(getTacksCount($tasksList, $category['cat_id']));
-                                    ?>
-                                </span>
-                            </li>
-                        <?php endforeach; ?>
-                    </ul>
-                </nav>
-
-                <a class="button button--transparent button--plus content__side-button"
-                   href="pages/form-project.html" target="project_add">Добавить проект</a>
-            </section>
-
-            <main class="content__main">
-                <h2 class="content__main-heading">Список задач</h2>
-
-                <form class="search-form" action="index.php" method="post" autocomplete="off">
-                    <input class="search-form__input" type="text" name="" value="" placeholder="Поиск по задачам">
-
-                    <input class="search-form__submit" type="submit" name="" value="Искать">
-                </form>
-
-                <div class="tasks-controls">
-                    <nav class="tasks-switch">
-                        <a href="/" class="tasks-switch__item tasks-switch__item--active">Все задачи</a>
-                        <a href="/" class="tasks-switch__item">Повестка дня</a>
-                        <a href="/" class="tasks-switch__item">Завтра</a>
-                        <a href="/" class="tasks-switch__item">Просроченные</a>
-                    </nav>
-
-                    <label class="checkbox">
-                        <!--добавить сюда атрибут "checked", если переменная $show_complete_tasks равна единице-->
-                        <input class="checkbox__input visually-hidden show_completed" type="checkbox"
-                               <?php if ($show_complete_tasks === 1): ?>checked<?php endif; ?>
-                        >
-                        <span class="checkbox__text">Показывать выполненные</span>
-                    </label>
-                </div>
-
-                <table class="tasks">
-                    <?php foreach ($tasksList as $task): ?>
-                        <?php if (!$show_complete_tasks && $task['status']) { continue; } ?>
-
-                        <tr class="tasks__item task <?php if ($task['status']) {
-                            print('task--completed');
-                        } ?>">
-                            <td class="task__select">
-                                <label class="checkbox task__checkbox">
-                                    <?php if ($task['status']): ?>
-                                        <input class="checkbox__input visually-hidden" type="checkbox" checked>
-                                    <?php else: ?>
-                                        <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="1">
-                                    <?php endif; ?>
-                                    <span class="checkbox__text">
-                                        <?php print($task['name']); ?>
-                                    </span>
-                                </label>
-                            </td>
-
-                            <td class="task__file">
-                                <a class="download-link" href="#">Home.psd</a>
-                            </td>
-
-                            <td class="task__date"><?php print($task['expire_date']); ?></td>
-                        </tr>
-                    <?php endforeach; ?>
-                </table>
-            </main>
-        </div>
+        <?php print($mainContent); ?>
     </div>
 </div>
 
