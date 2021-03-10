@@ -84,9 +84,9 @@ $currentCategoryId = filter_input(INPUT_GET, 'category', FILTER_SANITIZE_NUMBER_
                     <ul class="main-navigation__list">
                         <?php
                         foreach ($tasksCategories as $category): ?>
-                            <li class="main-navigation__list-item">
-                                <a class="main-navigation__list-item-link" href="#">
-                                    <?php print($category['cat_name']); ?>
+                            <li class="main-navigation__list-item <?php if ($currentCategoryId === $category['cat_id']): ?>main-navigation__list-item--active<?php endif; ?>">
+                                <a class="main-navigation__list-item-link" href="<?php print('/?category=' . $category['cat_id']); ?>">
+                                    <?php print($category['cat_name'] . ' ' . $category['cat_id']); ?>
                                 </a>
                                 <span class="main-navigation__list-item-count">
                                     <?php
