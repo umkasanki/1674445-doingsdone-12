@@ -37,6 +37,9 @@ function getTacksCount(array $tasksList = [], int $taskCategoryId = 0) {
     return $tasksCount;
 }
 
+// get an id of current category from url param
+$currentCategoryId = filter_input(INPUT_GET, 'category', FILTER_SANITIZE_NUMBER_INT);
+
 ?>
 <!DOCTYPE html>
 <html lang="ru">
