@@ -4,7 +4,7 @@ $siteTitle = 'Дела в порядке';
 $show_complete_tasks = rand(0, 1);
 
 // db queries
-$conn = mysqli_connect('mysql-5.7-33067.database.nitro', 'nitro', 'nitro', 'doit');
+$conn = mysqli_connect('mysql-5.7-33062.database.nitro', 'nitro', 'nitro', 'doit');
 if ($conn === false) {
     print_r('DB connection error' . mysqli_connect_error());
 }
