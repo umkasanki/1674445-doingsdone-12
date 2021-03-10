@@ -49,7 +49,7 @@ foreach ($tasksList as $task) {
 }
 
 if ($currentCategoryId !== null && $setNotFound) {
-    header("HTTP/1.0 404 Not Found");
+    http_response_code(404);
     echo "<h1>404 Not Found</h1>";
     echo "The page that you have requested could not be found.";
     exit();
