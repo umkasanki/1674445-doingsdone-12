@@ -40,6 +40,20 @@ function getTacksCount(array $tasksList = [], int $taskCategoryId = 0) {
 // get an id of current category from url param
 $currentCategoryId = filter_input(INPUT_GET, 'category', FILTER_SANITIZE_NUMBER_INT);
 
+// show 404 if count of tasks in the current category < 1
+$setNotFound = true;
+foreach ($tasksList as $task) {
+    if ($task['category_id'] === $currentCategoryId) {
+        $setNotFound = false;
+    }
+}
+
+if ($currentCategoryId !== null && $setNotFound) {
+    header("HTTP/1.0 404 Not Found");
+    echo "<h1>404 Not Found</h1>";
+    echo "The page that you have requested could not be found.";
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="ru">
