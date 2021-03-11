@@ -1,7 +1,8 @@
 <?php
 require ('helpers.php');
 
-$siteTitle = 'Дела в порядке';
+$pageTitle = 'Главная';
+
 $show_complete_tasks = rand(0, 1);
 
 // db queries
@@ -57,14 +58,14 @@ if ($currentCategoryId !== null && $setNotFound) {
 }
 
 $mainContent = include_template('main.php', [
-'show_complete_tasks' => $show_complete_tasks,
-'tasksCategories' => $tasksCategories,
-'tasksList' => $tasksList,
+    'show_complete_tasks' => $show_complete_tasks,
+    'tasksCategories' => $tasksCategories,
+    'tasksList' => $tasksList,
 ]);
 
 $layout_content = include_template('layout.php', [
-'pageTitle' => 'Главная | ' . $siteTitle,
-'mainContent' => $mainContent,
+    'pageTitle' => $pageTitle,
+    'mainContent' => $mainContent,
 ]);
 
 

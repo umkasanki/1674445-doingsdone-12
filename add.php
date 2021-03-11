@@ -1,7 +1,7 @@
 <?php
 require ('helpers.php');
 
-$siteTitle = 'Дела в порядке';
+$pageTitle = 'Новый таск';
 
 // db queries
 $conn = mysqli_connect('mysql-5.7-33062.database.nitro', 'nitro', 'nitro', 'doit');
@@ -44,7 +44,7 @@ $mainContent = include_template('AddTaskMain.php', [
 ]);
 
 $layout_content = include_template('layout.php', [
-    'pageTitle' => 'Главная | ' . $siteTitle,
+    'pageTitle' => $pageTitle,
     'mainContent' => $mainContent,
 ]);
 
