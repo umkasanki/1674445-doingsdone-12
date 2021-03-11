@@ -6,11 +6,13 @@
             <ul class="main-navigation__list">
                 <?php
                 foreach ($tasksCategories as $category): ?>
-                    <li class="main-navigation__list-item">
-                        <a class="main-navigation__list-item-link" href="#"><?php print(htmlspecialchars($category)) ?></a>
+                    <li class="main-navigation__list-item <?php if ($currentCategoryId === $category['cat_id']): ?>main-navigation__list-item--active<?php endif; ?>">
+                        <a class="main-navigation__list-item-link" href="<?php print('/?category=' . $category['cat_id']); ?>">
+                            <?php print($category['cat_name']); ?>
+                        </a>
                         <span class="main-navigation__list-item-count">
                                     <?php
-                                    print(getTacksCount($tasksList, $category));
+                                    print(getTacksCount($tasksList, $category['cat_id']));
                                     ?>
                                 </span>
                     </li>
@@ -50,24 +52,22 @@
 
         <table class="tasks">
             <?php foreach ($tasksList as $task): ?>
-                <?php if (!$show_complete_tasks && $task['taskCompleteStatus']) { continue; } ?>
+                <?php if (!$show_complete_tasks && $task['status']) { continue; } ?>
+                <?php if ($currentCategoryId !== null && ($task['category_id'] !== $currentCategoryId)) { continue; } ?>
 
-                <tr class="tasks__item task  <?php
-                    if ($task['taskCompleteStatus']) {
-                        print('task--completed');
-                    }
-                    if (checkTaskUrgency($task['taskCompleteDate'])) {
-                        print('task--important');
-                    }
-                ?>">
+                <tr class="tasks__item task <?php if ($task['status']) {
+                    print('task--completed');
+                } ?>">
                     <td class="task__select">
                         <label class="checkbox task__checkbox">
-                            <?php if ($task['taskCompleteStatus']): ?>
+                            <?php if ($task['status']): ?>
                                 <input class="checkbox__input visually-hidden" type="checkbox" checked>
                             <?php else: ?>
                                 <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="1">
                             <?php endif; ?>
-                            <span class="checkbox__text"><?php print(htmlspecialchars($task['taskName'])); ?></span>
+                            <span class="checkbox__text">
+                                        <?php print($task['name']); ?>
+                                    </span>
                         </label>
                     </td>
 
@@ -75,7 +75,7 @@
                         <a class="download-link" href="#">Home.psd</a>
                     </td>
 
-                    <td class="task__date"><?php print($task['taskCompleteDate']); ?></td>
+                    <td class="task__date"><?php print($task['expire_date']); ?></td>
                 </tr>
             <?php endforeach; ?>
         </table>
