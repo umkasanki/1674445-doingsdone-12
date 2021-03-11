@@ -97,6 +97,13 @@ $rules = [
         if (!is_date_valid($_POST['date'])) {
             return 'Выберите дату';
         }
+
+        $taskExpireDate = date_create_from_format('Y-m-d', $_POST['date']);
+        $currDate = date_create('now');
+
+        if ($taskExpireDate < $currDate) {
+            return 'Выберите корректную дату';
+        }
     },
 ];
 
