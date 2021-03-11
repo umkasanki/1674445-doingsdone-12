@@ -54,6 +54,9 @@ $layout_content = include_template('layout.php', [
     'mainContent' => $mainContent,
 ]);
 
+// обработка формы
+//print_r('test');
+print_r($_POST);
 
 print($layout_content);
 
