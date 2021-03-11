@@ -8,7 +8,10 @@
             <div class="form__row">
                 <label class="form__label" for="name">Название <sup>*</sup></label>
 
-                <input class="form__input" type="text" name="name" id="name" value="<?php print($_POST['name']); ?>" placeholder="Введите название">
+                <input class="form__input <?php if($errors['name']) {
+                    print('form__input--error');
+                } ?>" type="text" name="name" id="name" value="<?php print(getPostVal('name')); ?>" placeholder="Введите название">
+                <p class="form__message"><?php print($errors['name']); ?></p>
             </div>
 
             <div class="form__row">
@@ -17,7 +20,7 @@
                 <select class="form__input form__input--select" name="project" id="project">
                     <?php foreach ($tasksCategories as $category): ?>
                         <option value="<?php print($category['cat_id']);?>"
-                            <?php if($category['cat_id'] == $_POST['project']) { print('selected'); } ?>
+                            <?php if($category['cat_id'] == getPostVal('project')) { print('selected'); } ?>
                         >
                             <?php print($category['cat_name']); ?>
                         </option>
@@ -28,7 +31,7 @@
             <div class="form__row">
                 <label class="form__label" for="date">Дата выполнения</label>
 
-                <input class="form__input form__input--date" type="text" name="date" id="date" value="<?php print($_POST['date']); ?>" placeholder="Введите дату в формате ГГГГ-ММ-ДД">
+                <input class="form__input form__input--date" type="text" name="date" id="date" value="<?php print(getPostVal('date')); ?>" placeholder="Введите дату в формате ГГГГ-ММ-ДД">
             </div>
 
             <div class="form__row">

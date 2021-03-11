@@ -37,6 +37,58 @@ function getTacksCount(array $tasksList = [], int $taskCategoryId = 0) {
     return $tasksCount;
 }
 
+// обработка формы
+if (isset($_FILES['file'])) {
+    $fileName = $_FILES['file']['name'];
+    $uploadPath = __DIR__ . '/uploads/';
+    $fileUrl = '/uploads/' . $fileName;
+    move_uploaded_file($_FILES['file']['tmp_name'], $uploadPath . $fileName);
+}
+
+function getPostVal($name) {
+    return $_POST[$name] ?? "";
+}
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $isFormSubmitted = true;
+}
+
+function validateFilled($name) {
+    if (empty($_POST[$name])) {
+        return "Это поле должно быть заполнено";
+    }
+}
+
+function validateEmail($name) {
+    if (!filter_input(INPUT_POST, $name, FILTER_VALIDATE_EMAIL)) {
+        return "Введите корректный email";
+    }
+}
+
+function isCorrectLength($name, $min, $max) {
+    $len = strlen($_POST[$name]);
+
+    if ($len < $min or $len > $max) {
+        return "Значение должно быть от $min до $max символов";
+    }
+}
+
+$errors = [];
+$rules = [
+    'name' => function() {
+        return validateFilled('name');
+    }
+];
+
+foreach ($_POST as $key => $value) {
+    if (isset($rules[$key])) {
+        $rule = $rules[$key];
+        $errors[$key] = $rule();
+    }
+}
+
+$errors = array_filter($errors);
+
 $asideContent = include_template('aside.php', [
     'tasksCategories' => $tasksCategories,
     'tasksList' => $tasksList,
@@ -47,19 +99,13 @@ $mainContent = include_template('AddTaskMain.php', [
     'tasksCategories' => $tasksCategories,
     'tasksList' => $tasksList,
     'asideContent' => $asideContent,
+    'errors' => $errors,
 ]);
 
 $layout_content = include_template('layout.php', [
     'pageTitle' => $pageTitle,
     'mainContent' => $mainContent,
 ]);
-
-// обработка формы
-if (isset($_FILES['file'])) {
-    $fileName = $_FILES['file']['name'];
-    $fileUrl = '/uploads/' . $fileName;
-    move_uploaded_file($_FILES['file']['tmp_name'], __DIR__ . '/uploads/' . $fileName);
-}
 
 print($layout_content);
 
