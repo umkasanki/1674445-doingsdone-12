@@ -57,10 +57,16 @@ if ($currentCategoryId !== null && $setNotFound) {
     exit();
 }
 
+$asideContent = include_template('aside.php', [
+    'tasksCategories' => $tasksCategories,
+    'tasksList' => $tasksList,
+]);
+
 $mainContent = include_template('main.php', [
     'show_complete_tasks' => $show_complete_tasks,
     'tasksCategories' => $tasksCategories,
     'tasksList' => $tasksList,
+    'asideContent' => $asideContent,
 ]);
 
 $layout_content = include_template('layout.php', [

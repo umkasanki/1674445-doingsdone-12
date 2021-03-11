@@ -37,10 +37,16 @@ function getTacksCount(array $tasksList = [], int $taskCategoryId = 0) {
     return $tasksCount;
 }
 
+$asideContent = include_template('aside.php', [
+    'tasksCategories' => $tasksCategories,
+    'tasksList' => $tasksList,
+]);
+
 $mainContent = include_template('AddTaskMain.php', [
     'show_complete_tasks' => $show_complete_tasks,
     'tasksCategories' => $tasksCategories,
     'tasksList' => $tasksList,
+    'asideContent' => $asideContent,
 ]);
 
 $layout_content = include_template('layout.php', [
