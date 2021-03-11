@@ -55,8 +55,11 @@ $layout_content = include_template('layout.php', [
 ]);
 
 // обработка формы
-//print_r('test');
-print_r($_POST);
+if (isset($_FILES['file'])) {
+    $fileName = $_FILES['file']['name'];
+    $fileUrl = '/uploads/' . $fileName;
+    move_uploaded_file($_FILES['file']['tmp_name'], __DIR__ . '/uploads/' . $fileName);
+}
 
 print($layout_content);
 
