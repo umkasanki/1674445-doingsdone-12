@@ -15,7 +15,9 @@
                 <label class="form__label" for="project">Проект <sup>*</sup></label>
 
                 <select class="form__input form__input--select" name="project" id="project">
-                    <option value="">Входящие</option>
+                    <?php foreach ($tasksCategories as $category): ?>
+                        <option value="<?php print($category['cat_id']); ?>"><?php print($category['cat_name']); ?></option>
+                    <?php endforeach; ?>
                 </select>
             </div>
 
