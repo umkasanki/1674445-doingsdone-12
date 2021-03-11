@@ -1,3 +1,6 @@
+<?php
+//    var_dump($errors['name']);
+?>
 <div class="content">
     <?php print($asideContent); ?>
 
@@ -17,7 +20,10 @@
             <div class="form__row">
                 <label class="form__label" for="project">Проект <sup>*</sup></label>
 
-                <select class="form__input form__input--select" name="project" id="project">
+                <select class="form__input form__input--select <?php if($errors['project']) {
+                    print('form__input--error');
+                } ?>" name="project" id="project">
+                    <option value="">Выберите проект</option>
                     <?php foreach ($tasksCategories as $category): ?>
                         <option value="<?php print($category['cat_id']);?>"
                             <?php if($category['cat_id'] == getPostVal('project')) { print('selected'); } ?>
@@ -26,12 +32,16 @@
                         </option>
                     <?php endforeach; ?>
                 </select>
+                <p class="form__message"><?php print($errors['project']); ?></p>
             </div>
 
             <div class="form__row">
                 <label class="form__label" for="date">Дата выполнения</label>
 
-                <input class="form__input form__input--date" type="text" name="date" id="date" value="<?php print(getPostVal('date')); ?>" placeholder="Введите дату в формате ГГГГ-ММ-ДД">
+                <input class="form__input form__input--date <?php if($errors['date']) {
+                    print('form__input--error');
+                } ?>" type="text" name="date" id="date" value="<?php print(getPostVal('date')); ?>" placeholder="Введите дату в формате ГГГГ-ММ-ДД">
+                <p class="form__message"><?php print($errors['date']); ?></p>
             </div>
 
             <div class="form__row">

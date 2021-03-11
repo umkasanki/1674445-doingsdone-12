@@ -73,17 +73,39 @@ function isCorrectLength($name, $min, $max) {
     }
 }
 
+// Для идентификатора выбранного проекта проверять, что он ссылается на реально существующий проект.
+function validateCategory() {
+    foreach ($tasksCategories as $value) {
+        if ($value['cat_id'] == $_POST['project']) {
+            return true;
+        }
+    }
+    return 'Выберите проект';
+}
+
 $errors = [];
 $rules = [
     'name' => function() {
         return validateFilled('name');
-    }
+    },
+    'project' => function() {
+        // не понял как ошибку поправить. видимо что-то с областью видимости
+        // return validateCategory();
+        return validateFilled('project');
+    },
+    'date' => function() {
+        if (!is_date_valid($_POST['date'])) {
+            return 'Выберите дату';
+        }
+    },
 ];
+
+//var_dump( strtotime('2012-03-25') );
 
 foreach ($_POST as $key => $value) {
     if (isset($rules[$key])) {
         $rule = $rules[$key];
-        $errors[$key] = $rule();
+        $errors[$key] = $rule($value);
     }
 }
 
