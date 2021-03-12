@@ -6,7 +6,8 @@ $pageTitle = 'Новый таск';
 // db queries
 $conn = mysqli_connect('mysql-5.7-33062.database.nitro', 'nitro', 'nitro', 'doit');
 if ($conn === false) {
-    print_r('DB connection error' . mysqli_connect_error());
+    print('DB connection error' . mysqli_connect_error());
+    exit();
 }
 
 mysqli_set_charset($conn, 'utf8');
@@ -18,7 +19,7 @@ $getCategoriesQrRes = mysqli_query($conn, $getCategoriesQr);
 $getTasksQrRes = mysqli_query($conn, $getTasksQr);
 
 if (!$getCategoriesQrRes || !$getTasksQrRes) {
-    print_r('MySQL error:' . mysqli_error($conn));
+    print('MySQL error:' . mysqli_error($conn));
 }
 
 $tasksCategories = mysqli_fetch_all($getCategoriesQrRes, MYSQLI_ASSOC);
@@ -49,6 +50,15 @@ function getPostVal($name) {
     return $_POST[$name] ?? "";
 }
 
+function getFilesVal($name) {
+    if (isset($_FILES[$name])) {
+        $fileName = $_FILES[$name]['name'];
+        $fileUrl = '/uploads/' . $fileName;
+        return compact('fileName', 'fileUrl');
+    }
+    // @todo вопрос: нужен ли тут return?
+}
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $isFormSubmitted = true;
 }
@@ -65,23 +75,15 @@ function validateEmail($name) {
     }
 }
 
-function isCorrectLength($name, $min, $max) {
-    $len = strlen($_POST[$name]);
-
-    if ($len < $min or $len > $max) {
-        return "Значение должно быть от $min до $max символов";
-    }
-}
-
 // Для идентификатора выбранного проекта проверять, что он ссылается на реально существующий проект.
-function validateCategory() {
-    foreach ($tasksCategories as $value) {
-        if ($value['cat_id'] == $_POST['project']) {
-            return true;
-        }
-    }
-    return 'Выберите проект';
-}
+//function validateCategory() {
+//    foreach ($tasksCategories as $value) {
+//        if ($value['cat_id'] == $_POST['project']) {
+//            return true;
+//        }
+//    }
+//    return 'Выберите проект';
+//}
 
 $errors = [];
 $rules = [
@@ -105,11 +107,25 @@ $rules = [
             return 'Выберите корректную дату';
         }
     },
+    'file' => function() {
+        if (isset($_FILES['file'])) {
+            if ($_FILES['file']['size'] > 200000) {
+                return "Максимальный размер файла: 200Кб";
+            }
+        }
+    },
 ];
 
 //var_dump( strtotime('2012-03-25') );
 
 foreach ($_POST as $key => $value) {
+    if (isset($rules[$key])) {
+        $rule = $rules[$key];
+        $errors[$key] = $rule($value);
+    }
+}
+
+foreach ($_FILES as $key => $value) {
     if (isset($rules[$key])) {
         $rule = $rules[$key];
         $errors[$key] = $rule($value);
@@ -124,7 +140,6 @@ $asideContent = include_template('aside.php', [
 ]);
 
 $mainContent = include_template('AddTaskMain.php', [
-    'show_complete_tasks' => $show_complete_tasks,
     'tasksCategories' => $tasksCategories,
     'tasksList' => $tasksList,
     'asideContent' => $asideContent,

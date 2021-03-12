@@ -47,12 +47,15 @@
             <div class="form__row">
                 <label class="form__label" for="file">Файл</label>
 
-                <div class="form__input-file">
-                    <input class="visually-hidden" type="file" name="file" id="file" value="">
+                <div class="form__input-file <?php if($errors['file']) {
+                    print('form__input--error');
+                } ?>">
+                    <input class="visually-hidden" type="file" name="file" id="file" value="<?php print(getFilesVal('file')['fileName']); ?>">
 
                     <label class="button button--transparent" for="file">
                         <span>Выберите файл</span>
                     </label>
+                    <p class="form__message"><?php print($errors['file']); ?></p>
                 </div>
             </div>
 
