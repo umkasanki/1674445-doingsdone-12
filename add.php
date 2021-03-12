@@ -60,10 +60,6 @@ function getFilesVal($name) {
     // @todo вопрос: нужен ли тут return?
 }
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $isFormSubmitted = true;
-}
-
 function validateFilled($name) {
     if (empty($_POST[$name])) {
         return "Это поле должно быть заполнено";
@@ -135,6 +131,20 @@ foreach ($_FILES as $key => $value) {
 
 $errors = array_filter($errors);
 
+// отправка запросов
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && count($errors) === 0) {
+    $addTaskQr = "INSERT INTO `tasks` (publish_date, status, name, expire_date, user_id, category_id)
+                  VALUES ('2021-02-23', 0, 'Выполнить тестовое задание 3', '2021-03-20', 1, 3)";
+
+    $addTaskQrResult = mysqli_query($conn, $addTaskQr);
+
+    if (!$addTaskQrResult) {
+        $error = mysqli_error($conn);
+        print("Ошибка MySQL: " . $error);
+    }
+}
+
+// шаблонизация
 $asideContent = include_template('aside.php', [
     'tasksCategories' => $tasksCategories,
     'tasksList' => $tasksList,
