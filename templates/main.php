@@ -49,7 +49,13 @@
                     </td>
 
                     <td class="task__file">
-                        <a class="download-link" href="#">Home.psd</a>
+                        <?php if ($task['file_url']): ?>
+                            <?php
+                                $fileUrlArray = explode("/", $task['file_url']);
+                                $fileName = $fileUrlArray[count($fileUrlArray) - 1];
+                            ?>
+                            <a class="download-link" href="<?php print($task['file_url']); ?>"><?php print($fileName); ?></a>
+                        <?php endif; ?>
                     </td>
 
                     <td class="task__date"><?php print($task['expire_date']); ?></td>
