@@ -152,7 +152,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && count($errors) === 0) {
         $error = mysqli_error($conn);
         print("Ошибка MySQL: " . $error);
     } else {
-
+        header("Location: index.php"); exit;
     }
 }
 
