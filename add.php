@@ -134,14 +134,25 @@ $errors = array_filter($errors);
 // отправка запросов
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && count($errors) === 0) {
     $currDate = date_format(date_create('now'), 'Y-m-d');
-    $addTaskQr = "INSERT INTO `tasks` (publish_date, status, name, expire_date, user_id, category_id)
-                  VALUES ('$currDate', 0, 'Выполнить тестовое задание 4895', '2021-03-20', 1, 3)";
+    $addTaskQr = "INSERT INTO `tasks` (publish_date, status, name, file_url, expire_date, user_id, category_id)
+                  VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-    $addTaskQrResult = mysqli_query($conn, $addTaskQr);
+    $stmp = mysqli_prepare($conn, $addTaskQr);
+
+    $status = 0;
+    $userId = 1;
+    $fileUrl = getFilesVal('file')['fileUrl'];
+
+    mysqli_stmt_bind_param($stmp, 'sisssii',
+        $currDate, $status, getPostVal('name'), $fileUrl, getPostVal('date'), $userId, getPostVal('project'));
+
+    $addTaskQrResult = mysqli_stmt_execute($stmp);
 
     if (!$addTaskQrResult) {
         $error = mysqli_error($conn);
         print("Ошибка MySQL: " . $error);
+    } else {
+
     }
 }
 
