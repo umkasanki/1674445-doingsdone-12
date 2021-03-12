@@ -50,6 +50,7 @@
                 <div class="form__input-file <?php if($errors['file']) {
                     print('form__input--error');
                 } ?>">
+                    <!-- @todo Вопрос что нужно передавать в value? почему не выдает ошибку если $_FILES пустой? -->
                     <input class="visually-hidden" type="file" name="file" id="file" value="<?php print(getFilesVal('file')['fileName']); ?>">
 
                     <label class="button button--transparent" for="file">

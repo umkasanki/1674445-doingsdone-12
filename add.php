@@ -8,6 +8,7 @@ $conn = mysqli_connect('mysql-5.7-33062.database.nitro', 'nitro', 'nitro', 'doit
 if ($conn === false) {
     print('DB connection error' . mysqli_connect_error());
     exit();
+    // @todo вопрос: нужен ли тут exit?
 }
 
 mysqli_set_charset($conn, 'utf8');
@@ -75,7 +76,7 @@ function validateEmail($name) {
     }
 }
 
-// Для идентификатора выбранного проекта проверять, что он ссылается на реально существующий проект.
+// @todo вопрос: Для идентификатора выбранного проекта проверять, что он ссылается на реально существующий проект.
 //function validateCategory() {
 //    foreach ($tasksCategories as $value) {
 //        if ($value['cat_id'] == $_POST['project']) {
