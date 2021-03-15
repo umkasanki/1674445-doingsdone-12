@@ -1,26 +1,5 @@
 <div class="content">
-    <section class="content__side">
-        <h2 class="content__side-heading">Проекты</h2>
-
-        <nav class="main-navigation">
-            <ul class="main-navigation__list">
-                <?php
-                foreach ($tasksCategories as $category): ?>
-                    <li class="main-navigation__list-item">
-                        <a class="main-navigation__list-item-link" href="#"><?php print(htmlspecialchars($category)) ?></a>
-                        <span class="main-navigation__list-item-count">
-                                    <?php
-                                    print(getTacksCount($tasksList, $category));
-                                    ?>
-                                </span>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
-        </nav>
-
-        <a class="button button--transparent button--plus content__side-button"
-           href="pages/form-project.html" target="project_add">Добавить проект</a>
-    </section>
+    <?php print($asideContent); ?>
 
     <main class="content__main">
         <h2 class="content__main-heading">Список задач</h2>
@@ -50,32 +29,36 @@
 
         <table class="tasks">
             <?php foreach ($tasksList as $task): ?>
-                <?php if (!$show_complete_tasks && $task['taskCompleteStatus']) { continue; } ?>
+                <?php if (!$show_complete_tasks && $task['status']) { continue; } ?>
+                <?php if ($currentCategoryId !== null && ($task['category_id'] !== $currentCategoryId)) { continue; } ?>
 
-                <tr class="tasks__item task  <?php
-                    if ($task['taskCompleteStatus']) {
-                        print('task--completed');
-                    }
-                    if (checkTaskUrgency($task['taskCompleteDate'])) {
-                        print('task--important');
-                    }
-                ?>">
+                <tr class="tasks__item task <?php if ($task['status']) {
+                    print('task--completed');
+                } ?>">
                     <td class="task__select">
                         <label class="checkbox task__checkbox">
-                            <?php if ($task['taskCompleteStatus']): ?>
+                            <?php if ($task['status']): ?>
                                 <input class="checkbox__input visually-hidden" type="checkbox" checked>
                             <?php else: ?>
                                 <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="1">
                             <?php endif; ?>
-                            <span class="checkbox__text"><?php print(htmlspecialchars($task['taskName'])); ?></span>
+                            <span class="checkbox__text">
+                                        <?php print($task['name']); ?>
+                                    </span>
                         </label>
                     </td>
 
                     <td class="task__file">
-                        <a class="download-link" href="#">Home.psd</a>
+                        <?php if ($task['file_url']): ?>
+                            <?php
+                                $fileUrlArray = explode("/", $task['file_url']);
+                                $fileName = $fileUrlArray[count($fileUrlArray) - 1];
+                            ?>
+                            <a class="download-link" href="<?php print($task['file_url']); ?>"><?php print($fileName); ?></a>
+                        <?php endif; ?>
                     </td>
 
-                    <td class="task__date"><?php print($task['taskCompleteDate']); ?></td>
+                    <td class="task__date"><?php print($task['expire_date']); ?></td>
                 </tr>
             <?php endforeach; ?>
         </table>
