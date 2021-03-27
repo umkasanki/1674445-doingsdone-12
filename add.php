@@ -46,10 +46,6 @@ if (isset($_FILES['file'])) {
     move_uploaded_file($_FILES['file']['tmp_name'], $uploadPath . $fileName);
 }
 
-function getPostVal($name) {
-    return $_POST[$name] ?? "";
-}
-
 function getFilesVal($name) {
     if (isset($_FILES[$name])) {
         $fileName = $_FILES[$name]['name'];
