@@ -6,22 +6,21 @@ $pageTitle = 'Регистрация';
 $errors = [];
 
 foreach ($_POST as $key => $value) {
-    if ($key == 'email') {
-        if (filter_var($value, FILTER_VALIDATE_EMAIL) == false) {
-            $errors[$key] = 'Введите корректный емайл';
-        }
+    if (($key == 'email') && filter_var($value, FILTER_VALIDATE_EMAIL) == false) {
+        $errors[$key] = 'Введите корректный емайл';
     }
     if ($key == 'password') {
-        if (empty($POST[$key])) {
+        $len = strlen($_POST[$key]);
+        if ($len < 1) {
             $errors[$key] = 'Введите пароль';
         }
-        $len = strlen($_POST[$key]);
         if ($len < 8 and $len > 0) {
             $errors[$key] = 'Длина пароля должна быть не менее 8 символов';
         }
     }
     if ($key == 'name') {
-        if (empty($POST[$key])) {
+        $len = strlen($_POST[$key]);
+        if ($len < 1) {
             $errors[$key] = 'Введите логин';
         }
     }
