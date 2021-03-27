@@ -142,3 +142,7 @@ function include_template($name, array $data = []) {
 
     return $result;
 }
+
+function getPostVal($name) {
+    return $_POST[$name] ?? "";
+}
