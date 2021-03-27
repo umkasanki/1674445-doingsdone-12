@@ -162,7 +162,7 @@ $asideContent = include_template('aside.php', [
     'tasksList' => $tasksList,
 ]);
 
-$mainContent = include_template('AddTaskMain.php', [
+$mainContent = include_template('addTaskMain.php', [
     'tasksCategories' => $tasksCategories,
     'tasksList' => $tasksList,
     'asideContent' => $asideContent,
