@@ -4,7 +4,7 @@ require ('helpers.php');
 $pageTitle = 'Новый таск';
 
 // db queries
-$conn = mysqli_connect('mysql-5.7-33062.database.nitro', 'nitro', 'nitro', 'doit');
+$conn = mysqli_connect('127.0.0.1', 'mysql', 'mysql', 'doit');
 if ($conn === false) {
     print('DB connection error' . mysqli_connect_error());
     exit();

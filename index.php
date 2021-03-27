@@ -6,7 +6,7 @@ $pageTitle = 'Главная';
 $show_complete_tasks = rand(0, 1);
 
 // db queries
-$conn = mysqli_connect('mysql-5.7-33062.database.nitro', 'nitro', 'nitro', 'doit');
+$conn = mysqli_connect('127.0.0.1', 'mysql', 'mysql', 'doit');
 if ($conn === false) {
     print_r('DB connection error' . mysqli_connect_error());
 }
@@ -67,6 +67,7 @@ $mainContent = include_template('main.php', [
     'tasksCategories' => $tasksCategories,
     'tasksList' => $tasksList,
     'asideContent' => $asideContent,
+    'currentCategoryId' => $currentCategoryId,
 ]);
 
 $layout_content = include_template('layout.php', [
