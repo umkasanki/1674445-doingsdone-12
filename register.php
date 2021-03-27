@@ -14,11 +14,6 @@ $getUsersQr = "SELECT * FROM `users`";
 $getUsersQrRes = mysqli_query($conn, $getUsersQr);
 $usersList = mysqli_fetch_all($getUsersQrRes, MYSQLI_ASSOC);
 
-foreach ($usersList as $user) {
-    var_dump($user['email']);
-    var_dump($user['name']);
-}
-
 // validation
 $errors = [];
 
@@ -62,16 +57,23 @@ foreach ($_POST as $key => $value) {
 
 $errors = array_filter($errors);
 
-if (count($errors)) {
-//    print (getPostVal('name'));
-    var_dump($_POST);
-    print ('<br>');
-    var_dump($errors);
-//    die();
-}
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && count($errors) === 0) {
-    var_dump('register user');
+    $email = getPostVal('email');
+    $name = getPostVal('name');
+    $pass = getPostVal('password');
+
+    $addUserQr = "INSERT INTO `users` (email, name, password)
+                  VALUES (?, ?, ?)";
+    $stmp = mysqli_prepare($conn, $addUserQr);
+    mysqli_stmt_bind_param($stmp, 'sss',$email, $name, $pass);
+    $addUserQrRes = mysqli_stmt_execute($stmp);
+
+    if (!$addUserQrRes) {
+        $error = mysqli_error($conn);
+        print("Ошибка MySQL: " . $error);
+    } else {
+        header("Location: index.php"); exit;
+    }
 }
 
 //templating
