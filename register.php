@@ -2,13 +2,39 @@
 require ('helpers.php');
 $pageTitle = 'Регистрация';
 
+//get data
+$conn = mysqli_connect('127.0.0.1', 'mysql', 'mysql', 'doit');
+if ($conn === false) {
+    print('DB connection error' . mysqli_connect_error());
+    exit();
+}
+
+mysqli_set_charset($conn, 'utf8');
+$getUsersQr = "SELECT * FROM `users`";
+$getUsersQrRes = mysqli_query($conn, $getUsersQr);
+$usersList = mysqli_fetch_all($getUsersQrRes, MYSQLI_ASSOC);
+
+foreach ($usersList as $user) {
+    var_dump($user['email']);
+    var_dump($user['name']);
+}
+
 // validation
 $errors = [];
 
 foreach ($_POST as $key => $value) {
-    if (($key == 'email') && filter_var($value, FILTER_VALIDATE_EMAIL) == false) {
-        $errors[$key] = 'Введите корректный емайл';
+    if ($key == 'email') {
+        if (filter_var($value, FILTER_VALIDATE_EMAIL) == false) {
+            $errors[$key] = 'Введите корректный емайл';
+        } else {
+            foreach ($usersList as $user) {
+                if ($user['email'] == $_POST['email']) {
+                    $errors[$key] = 'Этот емайл занят, выберите другой';
+                }
+            }
+        }
     }
+
     if ($key == 'password') {
         $len = strlen($_POST[$key]);
         if ($len < 1) {
@@ -22,7 +48,14 @@ foreach ($_POST as $key => $value) {
         $len = strlen($_POST[$key]);
         if ($len < 1) {
             $errors[$key] = 'Введите логин';
+        } else {
+            foreach ($usersList as $user) {
+                if ($user['name'] == $_POST['name']) {
+                    $errors[$key] = 'Этот логин занят, выберите другой';
+                }
+            }
         }
+
     }
 }
 

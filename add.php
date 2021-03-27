@@ -8,7 +8,6 @@ $conn = mysqli_connect('127.0.0.1', 'mysql', 'mysql', 'doit');
 if ($conn === false) {
     print('DB connection error' . mysqli_connect_error());
     exit();
-    // @todo вопрос: нужен ли тут exit?
 }
 
 mysqli_set_charset($conn, 'utf8');
