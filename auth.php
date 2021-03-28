@@ -1,5 +1,6 @@
 <?php
 require ('helpers.php');
+session_start();
 
 $pageTitle = 'Авторизация';
 $user = [];
@@ -58,14 +59,19 @@ $errors = array_filter($errors);
 
 // auth
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && count($errors) === 0) {
+
     $_SESSION['userid'] = $user['id'];
+    $_SESSION['username'] = $user['name'];
 
     if (isset($_SESSION['userid'])) {
-        print($_SESSION['userid']);
+        header("Location: index.php"); exit;
     }
 }
 
 
+if (isset($_SESSION['userid'])) {
+    header("Location: index.php"); exit;
+}
 
 
 //templating
