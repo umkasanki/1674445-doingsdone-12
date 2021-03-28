@@ -77,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && count($errors) === 0) {
 }
 
 //templating
-$asideContent = include_template('registerAside.php');
+$asideContent = include_template('aside.php');
 $mainContent = include_template('registerMain.php', [
     'asideContent' => $asideContent,
     'errors' => $errors,
