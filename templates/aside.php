@@ -1,5 +1,6 @@
 <section class="content__side">
-    <?php if (isset($user) && count($user)): ?>
+    <?php session_start(); ?>
+    <?php if (isset($_SESSION['userid'])): ?>
         <h2 class="content__side-heading">Проекты</h2>
 
         <nav class="main-navigation">
@@ -21,9 +22,9 @@
         </nav>
 
         <a class="button button--transparent button--plus content__side-button"
-           href="pages/form-project.html" target="project_add">Добавить проект</a>
+           href="/add.php" target="project_add">Добавить проект</a>
     <?php else: ?>
         <p class="content__side-info">Если у вас уже есть аккаунт, авторизуйтесь на сайте</p>
-        <a class="button button--transparent content__side-button" href="form-authorization.html">Войти</a>
+        <a class="button button--transparent content__side-button" href="/auth.php">Войти</a>
     <?php endif; ?>
 </section>

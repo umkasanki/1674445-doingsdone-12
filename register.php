@@ -60,12 +60,12 @@ $errors = array_filter($errors);
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && count($errors) === 0) {
     $email = getPostVal('email');
     $name = getPostVal('name');
-    $pass = getPostVal('password');
+    $passwordHash = password_hash(getPostVal('password'), PASSWORD_DEFAULT);
 
     $addUserQr = "INSERT INTO `users` (email, name, password)
                   VALUES (?, ?, ?)";
     $stmp = mysqli_prepare($conn, $addUserQr);
-    mysqli_stmt_bind_param($stmp, 'sss',$email, $name, $pass);
+    mysqli_stmt_bind_param($stmp, 'sss',$email, $name, $passwordHash);
     $addUserQrRes = mysqli_stmt_execute($stmp);
 
     if (!$addUserQrRes) {

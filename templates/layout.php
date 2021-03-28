@@ -20,7 +20,8 @@
             </a>
 
             <div class="main-header__side">
-                <?php if (isset($user) && count($user)): ?>
+                <?php session_start(); ?>
+                <?php if (isset($_SESSION['userid'])): ?>
                     <a class="main-header__side-item button button--plus open-modal" href="add.php">Добавить
                         задачу</a>
 
@@ -28,11 +29,11 @@
                         <div class="user-menu__data">
                             <p>Константин</p>
 
-                            <a href="#">Выйти</a>
+                            <a href="/logout.php">Выйти</a>
                         </div>
                     </div>
                 <?php else: ?>
-                    <a class="main-header__side-item button button--transparent" href="form-authorization.html">Войти</a>
+                    <a class="main-header__side-item button button--transparent" href="/auth.php">Войти</a>
                 <?php endif; ?>
             </div>
         </header>
