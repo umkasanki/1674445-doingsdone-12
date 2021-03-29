@@ -4,11 +4,10 @@ require ('helpers.php');
 $pageTitle = 'Новый таск';
 
 // db queries
-$conn = mysqli_connect('mysql-5.7-33062.database.nitro', 'nitro', 'nitro', 'doit');
+$conn = mysqli_connect('127.0.0.1', 'mysql', 'mysql', 'doit');
 if ($conn === false) {
     print('DB connection error' . mysqli_connect_error());
     exit();
-    // @todo вопрос: нужен ли тут exit?
 }
 
 mysqli_set_charset($conn, 'utf8');
@@ -45,10 +44,6 @@ if (isset($_FILES['file'])) {
     $uploadPath = __DIR__ . '/uploads/';
     $fileUrl = '/uploads/' . $fileName;
     move_uploaded_file($_FILES['file']['tmp_name'], $uploadPath . $fileName);
-}
-
-function getPostVal($name) {
-    return $_POST[$name] ?? "";
 }
 
 function getFilesVal($name) {
@@ -162,7 +157,7 @@ $asideContent = include_template('aside.php', [
     'tasksList' => $tasksList,
 ]);
 
-$mainContent = include_template('AddTaskMain.php', [
+$mainContent = include_template('addTaskMain.php', [
     'tasksCategories' => $tasksCategories,
     'tasksList' => $tasksList,
     'asideContent' => $asideContent,

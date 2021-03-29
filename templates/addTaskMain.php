@@ -14,7 +14,9 @@
                 <input class="form__input <?php if($errors['name']) {
                     print('form__input--error');
                 } ?>" type="text" name="name" id="name" value="<?php print(getPostVal('name')); ?>" placeholder="Введите название">
-                <p class="form__message"><?php print($errors['name']); ?></p>
+                <?php if (isset($errors['name'])): ?>
+                    <p class="form__message"><?php print($errors['name']); ?></p>
+                <?php endif ?>
             </div>
 
             <div class="form__row">
@@ -32,7 +34,9 @@
                         </option>
                     <?php endforeach; ?>
                 </select>
-                <p class="form__message"><?php print($errors['project']); ?></p>
+                <?php if (isset($errors['project'])): ?>
+                    <p class="form__message"><?php print($errors['project']); ?></p>
+                <?php endif ?>
             </div>
 
             <div class="form__row">
@@ -41,7 +45,9 @@
                 <input class="form__input form__input--date <?php if($errors['date']) {
                     print('form__input--error');
                 } ?>" type="text" name="date" id="date" value="<?php print(getPostVal('date')); ?>" placeholder="Введите дату в формате ГГГГ-ММ-ДД">
-                <p class="form__message"><?php print($errors['date']); ?></p>
+                <?php if (isset($errors['date'])): ?>
+                    <p class="form__message"><?php print($errors['date']); ?></p>
+                <?php endif ?>
             </div>
 
             <div class="form__row">
@@ -56,7 +62,7 @@
                     <label class="button button--transparent" for="file">
                         <span>Выберите файл</span>
                     </label>
-                    <p class="form__message"><?php print($errors['file']); ?></p>
+                    <p class="form__message"><?php print($errors['file'] ?? ''); ?></p>
                 </div>
             </div>
 
