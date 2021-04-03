@@ -1,5 +1,4 @@
 <section class="content__side">
-    <?php session_start(); ?>
     <?php if (isset($_SESSION['userid'])): ?>
         <h2 class="content__side-heading">Проекты</h2>
 

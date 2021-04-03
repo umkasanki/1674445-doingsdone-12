@@ -70,7 +70,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && count($errors) === 0) {
 
 
 if (isset($_SESSION['userid'])) {
-    header("Location: index.php"); exit;
+//    header("Location: index.php"); exit;
+    echo ($_SESSION['userid']);
 }
 
 
