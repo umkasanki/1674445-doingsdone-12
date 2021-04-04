@@ -30,3 +30,5 @@ CREATE TABLE `users` (
     password VARCHAR(128) NOT NULL,
     INDEX users_index (name)
 );
+
+CREATE FULLTEXT INDEX tasks_ft_search ON tasks(name);
