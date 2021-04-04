@@ -52,10 +52,14 @@ $currentCategoryId = filter_input(INPUT_GET, 'category', FILTER_SANITIZE_NUMBER_
 // Search
 
 $searchQuery = filter_input(INPUT_GET, 'q', FILTER_SANITIZE_URL);
+
 if ($searchQuery) {
-    print ($searchQuery);
-} else {
-    print ('no search query');
+    $sql = "SELECT * FROM `tasks` WHERE MATCH(name) AGAINST(?)";
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, 's', $searchQuery);
+    mysqli_stmt_execute($stmt);
+    $res = mysqli_stmt_get_result($stmt);
+    $tasksList = mysqli_fetch_all($res, MYSQLI_ASSOC);
 }
 
 // show 404 if count of tasks in the current category < 1

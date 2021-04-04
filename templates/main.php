@@ -61,6 +61,10 @@
                     <td class="task__date"><?php print($task['expire_date']); ?></td>
                 </tr>
             <?php endforeach; ?>
+
+            <?php if(!count($tasksList)): ?>
+                <p>Ничего не найдено</p>
+            <?php endif; ?>
         </table>
     </main>
 </div>
