@@ -49,6 +49,15 @@ function getTacksCount(array $tasksList = [], int $taskCategoryId = 0) {
 // get an id of current category from url param
 $currentCategoryId = filter_input(INPUT_GET, 'category', FILTER_SANITIZE_NUMBER_INT);
 
+// Search
+
+$searchQuery = filter_input(INPUT_GET, 'q', FILTER_SANITIZE_URL);
+if ($searchQuery) {
+    print ($searchQuery);
+} else {
+    print ('no search query');
+}
+
 // show 404 if count of tasks in the current category < 1
 $setNotFound = true;
 foreach ($tasksList as $task) {
