@@ -1,6 +1,9 @@
 <?php
 require ('helpers.php');
-$pageTitle = 'Регистрация';
+session_start();
+
+$pageTitle = 'Авторизация';
+$user = [];
 
 //get data
 $conn = mysqli_connect('127.0.0.1', 'mysql', 'mysql', 'doit');
@@ -16,20 +19,26 @@ $usersList = mysqli_fetch_all($getUsersQrRes, MYSQLI_ASSOC);
 
 // validation
 $errors = [];
-
 foreach ($_POST as $key => $value) {
     if ($key == 'email') {
-        if (filter_var($value, FILTER_VALIDATE_EMAIL) == false) {
+        $len = strlen($_POST[$key]);
+        if ($len < 1) {
+            $errors[$key] = 'Введите email';
+        }
+        elseif ($len > 0 && filter_var($value, FILTER_VALIDATE_EMAIL) == false) {
             $errors[$key] = 'Введите корректный емайл';
         } else {
-            foreach ($usersList as $user) {
-                if ($user['email'] == $_POST['email']) {
-                    $errors[$key] = 'Этот емайл занят, выберите другой';
+            foreach ($usersList as $item) {
+                if ($item['email'] == $_POST['email']) {
+                    $user = $item;
                 }
+            }
+
+            if (!count($user)) {
+                $errors[$key] = 'Пользователь не найден';
             }
         }
     }
-
     if ($key == 'password') {
         $len = strlen($_POST[$key]);
         if ($len < 1) {
@@ -38,53 +47,46 @@ foreach ($_POST as $key => $value) {
         if ($len < 8 and $len > 0) {
             $errors[$key] = 'Длина пароля должна быть не менее 8 символов';
         }
-    }
-    if ($key == 'name') {
-        $len = strlen($_POST[$key]);
-        if ($len < 1) {
-            $errors[$key] = 'Введите логин';
-        } else {
-            foreach ($usersList as $user) {
-                if ($user['name'] == $_POST['name']) {
-                    $errors[$key] = 'Этот логин занят, выберите другой';
-                }
+        if (count($user)) {
+            if (!password_verify($_POST['password'], $user['password'])) {
+                $errors[$key] = 'неверный пароль';
             }
         }
-
     }
 }
 
-
 $errors = array_filter($errors);
 
+// auth
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && count($errors) === 0) {
-    $email = getPostVal('email');
-    $name = getPostVal('name');
-    $passwordHash = password_hash(getPostVal('password'), PASSWORD_DEFAULT);
 
-    $addUserQr = "INSERT INTO `users` (email, name, password)
-                  VALUES (?, ?, ?)";
-    $stmp = mysqli_prepare($conn, $addUserQr);
-    mysqli_stmt_bind_param($stmp, 'sss',$email, $name, $passwordHash);
-    $addUserQrRes = mysqli_stmt_execute($stmp);
+    $_SESSION['userid'] = $user['id'];
+    $_SESSION['username'] = $user['name'];
 
-    if (!$addUserQrRes) {
-        $error = mysqli_error($conn);
-        print("Ошибка MySQL: " . $error);
-    } else {
+    if (isset($_SESSION['userid'])) {
         header("Location: index.php"); exit;
     }
 }
 
+
+if (isset($_SESSION['userid'])) {
+//    header("Location: index.php"); exit;
+    echo ($_SESSION['userid']);
+}
+
+
 //templating
-$asideContent = include_template('aside.php');
-$mainContent = include_template('registerMain.php', [
+$asideContent = include_template('aside.php', [
+    'user' => $user,
+]);
+$mainContent = include_template('authMain.php', [
     'asideContent' => $asideContent,
     'errors' => $errors,
 ]);
 $layout_content = include_template('layout.php', [
     'pageTitle' => $pageTitle,
     'mainContent' => $mainContent,
+    'user' => $user,
 ]);
 
 print($layout_content);

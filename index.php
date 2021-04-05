@@ -5,26 +5,49 @@ $pageTitle = 'Главная';
 
 $show_complete_tasks = rand(0, 1);
 
+session_start();
+
+if (isset($_SESSION['userid'])) {
+    $userId = $_SESSION['userid'];
+} else {
+    header("Location: auth.php"); exit;
+}
+
 // db queries
 $conn = mysqli_connect('127.0.0.1', 'mysql', 'mysql', 'doit');
 if ($conn === false) {
     print_r('DB connection error' . mysqli_connect_error());
 }
 
-mysqli_set_charset($conn, 'utf8');
 
-$getCategoriesQr = "SELECT * FROM `categories` WHERE `user_id` = 1";
-$getTasksQr = "SELECT * FROM `tasks` WHERE `user_id` = 1";
+//mysqli_set_charset($conn, 'utf8');
+//
+//$getCategoriesQr = "SELECT * FROM `categories` WHERE `user_id` = 1";
+//$getTasksQr = "SELECT * FROM `tasks` WHERE `user_id` = 1";
+//
+//$getCategoriesQrRes = mysqli_query($conn, $getCategoriesQr);
+//$getTasksQrRes = mysqli_query($conn, $getTasksQr);
+//
+//if (!$getCategoriesQrRes || !$getTasksQrRes) {
+//    print_r('MySQL error:' . mysqli_error($conn));
+//}
+//
+//$tasksCategories = mysqli_fetch_all($getCategoriesQrRes, MYSQLI_ASSOC);
+//$tasksList = mysqli_fetch_all($getTasksQrRes, MYSQLI_ASSOC);
 
-$getCategoriesQrRes = mysqli_query($conn, $getCategoriesQr);
-$getTasksQrRes = mysqli_query($conn, $getTasksQr);
+$getCategoriesSql = "SELECT * FROM `categories` WHERE `user_id` = ?";
+$getCategoriesStmt = mysqli_prepare($conn, $getCategoriesSql);
+mysqli_stmt_bind_param($getCategoriesStmt, 'i', $userId);
+mysqli_stmt_execute($getCategoriesStmt);
+$getCategoriesRes = mysqli_stmt_get_result($getCategoriesStmt);
+$tasksCategories = mysqli_fetch_all($getCategoriesRes, MYSQLI_ASSOC);
 
-if (!$getCategoriesQrRes || !$getTasksQrRes) {
-    print_r('MySQL error:' . mysqli_error($conn));
-}
-
-$tasksCategories = mysqli_fetch_all($getCategoriesQrRes, MYSQLI_ASSOC);
-$tasksList = mysqli_fetch_all($getTasksQrRes, MYSQLI_ASSOC);
+$getTasksSql = "SELECT * FROM `tasks` WHERE `user_id` = ?";
+$getTasksStmt = mysqli_prepare($conn, $getTasksSql);
+mysqli_stmt_bind_param($getTasksStmt, 'i', $userId);
+mysqli_stmt_execute($getTasksStmt);
+$getTasksRes = mysqli_stmt_get_result($getTasksStmt);
+$tasksList = mysqli_fetch_all($getTasksRes, MYSQLI_ASSOC);
 // db queries end
 
 function getTacksCount(array $tasksList = [], int $taskCategoryId = 0) {
