@@ -19,22 +19,6 @@ if ($conn === false) {
     print_r('DB connection error' . mysqli_connect_error());
 }
 
-
-//mysqli_set_charset($conn, 'utf8');
-//
-//$getCategoriesQr = "SELECT * FROM `categories` WHERE `user_id` = 1";
-//$getTasksQr = "SELECT * FROM `tasks` WHERE `user_id` = 1";
-//
-//$getCategoriesQrRes = mysqli_query($conn, $getCategoriesQr);
-//$getTasksQrRes = mysqli_query($conn, $getTasksQr);
-//
-//if (!$getCategoriesQrRes || !$getTasksQrRes) {
-//    print_r('MySQL error:' . mysqli_error($conn));
-//}
-//
-//$tasksCategories = mysqli_fetch_all($getCategoriesQrRes, MYSQLI_ASSOC);
-//$tasksList = mysqli_fetch_all($getTasksQrRes, MYSQLI_ASSOC);
-
 $getCategoriesSql = "SELECT * FROM `categories` WHERE `user_id` = ?";
 $getCategoriesStmt = mysqli_prepare($conn, $getCategoriesSql);
 mysqli_stmt_bind_param($getCategoriesStmt, 'i', $userId);
@@ -64,6 +48,19 @@ function getTacksCount(array $tasksList = [], int $taskCategoryId = 0) {
 
 // get an id of current category from url param
 $currentCategoryId = filter_input(INPUT_GET, 'category', FILTER_SANITIZE_NUMBER_INT);
+
+// Search
+
+$searchQuery = filter_input(INPUT_GET, 'q', FILTER_SANITIZE_URL);
+
+if ($searchQuery) {
+    $sql = "SELECT * FROM `tasks` WHERE MATCH(name) AGAINST(?)";
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, 's', $searchQuery);
+    mysqli_stmt_execute($stmt);
+    $res = mysqli_stmt_get_result($stmt);
+    $tasksList = mysqli_fetch_all($res, MYSQLI_ASSOC);
+}
 
 // show 404 if count of tasks in the current category < 1
 $setNotFound = true;
