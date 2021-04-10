@@ -40,7 +40,7 @@
                             <?php if ($task['status']): ?>
                                 <input class="checkbox__input visually-hidden" type="checkbox" checked>
                             <?php else: ?>
-                                <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="1">
+                                <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="<?php print($task['id']); ?>">
                             <?php endif; ?>
                             <span class="checkbox__text">
                                         <?php print($task['name']); ?>
