@@ -37,8 +37,8 @@
                 } ?>">
                     <td class="task__select">
                         <label class="checkbox task__checkbox">
-                            <?php if ($task['status']): ?>
-                                <input class="checkbox__input visually-hidden" type="checkbox" checked>
+                            <?php if ($task['status'] == 1): ?>
+                                <input class="checkbox__input visually-hidden" type="checkbox" checked value="<?php print($task['id']); ?>">
                             <?php else: ?>
                                 <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="<?php print($task['id']); ?>">
                             <?php endif; ?>
