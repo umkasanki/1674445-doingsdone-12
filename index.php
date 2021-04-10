@@ -32,11 +32,9 @@ $taksFilterDate = filter_input(INPUT_GET, 'date', FILTER_SANITIZE_STRING);
 if ($taksFilterDate == 'outdated') {
     $getTasksSql = "SELECT * FROM `tasks` WHERE `user_id` = ? and expire_date < CURDATE()";
 } elseif ($taksFilterDate == 'today') {
-    print ('today tasks');
     $getTasksSql = "SELECT * FROM `tasks` WHERE `user_id` = ? and
                             (expire_date = CURRENT_DATE())";
 } elseif ($taksFilterDate == 'tomorrow') {
-    print ('tomorrow tasks');
     $getTasksSql = "SELECT * FROM `tasks` WHERE `user_id` = ? and
                             (expire_date < DATE_ADD(NOW(), INTERVAL 1 DAY) and expire_date > CURDATE())";
 } else {
@@ -120,6 +118,7 @@ $mainContent = include_template('main.php', [
     'tasksList' => $tasksList,
     'asideContent' => $asideContent,
     'currentCategoryId' => $currentCategoryId,
+    'taksFilterDate' => $taksFilterDate,
 ]);
 
 $layout_content = include_template('layout.php', [
