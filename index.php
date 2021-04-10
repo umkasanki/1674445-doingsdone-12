@@ -1,11 +1,13 @@
 <?php
+session_start();
+
 require ('helpers.php');
 
 $pageTitle = 'Главная';
 
 $show_complete_tasks = rand(0, 1);
+$show_complete_tasks = 1;
 
-session_start();
 
 if (isset($_SESSION['userid'])) {
     $userId = $_SESSION['userid'];
@@ -64,17 +66,13 @@ if ($searchQuery) {
 
 // show 404 if count of tasks in the current category < 1
 $setNotFound = true;
+
 foreach ($tasksList as $task) {
+//    print('<br>');
+//    print('catid' . ' - ' . $task['category_id'] . ' - ' . $currentCategoryId);
     if ($task['category_id'] === $currentCategoryId) {
         $setNotFound = false;
     }
-}
-
-if ($currentCategoryId !== null && $setNotFound) {
-    http_response_code(404);
-    echo "<h1>404 Not Found</h1>";
-    echo "The page that you have requested could not be found.";
-    exit();
 }
 
 $asideContent = include_template('aside.php', [

@@ -30,7 +30,7 @@
         <table class="tasks">
             <?php foreach ($tasksList as $task): ?>
                 <?php if (!$show_complete_tasks && $task['status']) { continue; } ?>
-                <?php if ($currentCategoryId !== null && ($task['category_id'] !== $currentCategoryId)) { continue; } ?>
+                <?php if ($currentCategoryId !== null && ($task['category_id'] != $currentCategoryId)) { continue; } ?>
 
                 <tr class="tasks__item task <?php if ($task['status']) {
                     print('task--completed');
