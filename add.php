@@ -143,12 +143,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && count($errors) === 0) {
 
     $stmp = mysqli_prepare($conn, $addTaskQr);
 
+    $name = getPostVal('name');
+    $date = getPostVal('date');
+    $project = getPostVal('project');
     $status = 0;
-    $userId = 1;
+    $userId = 5;
     $fileUrl = getFilesVal('file')['fileUrl'];
 
     mysqli_stmt_bind_param($stmp, 'sisssii',
-        $currDate, $status, getPostVal('name'), $fileUrl, getPostVal('date'), $userId, getPostVal('project'));
+        $currDate, $status, $name, $fileUrl, $date, $userId, $project);
 
     $addTaskQrResult = mysqli_stmt_execute($stmp);
 
