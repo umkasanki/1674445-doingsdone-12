@@ -75,6 +75,16 @@ foreach ($tasksList as $task) {
     }
 }
 
+// invert tasks status
+// get data from url param
+$currentTaskId = filter_input(INPUT_GET, 'task_id', FILTER_SANITIZE_NUMBER_INT);
+$currentTaskStatus = filter_input(INPUT_GET, 'task_id', FILTER_SANITIZE_NUMBER_INT);
+
+if ($currentTaskId) {
+    print ('invert tasks status sql');
+}
+// invert tasks status end
+
 $asideContent = include_template('aside.php', [
     'tasksCategories' => $tasksCategories,
     'tasksList' => $tasksList,
