@@ -12,10 +12,14 @@
 
         <div class="tasks-controls">
             <nav class="tasks-switch">
-                <a href="/" class="tasks-switch__item tasks-switch__item--active">Все задачи</a>
-                <a href="/" class="tasks-switch__item">Повестка дня</a>
-                <a href="/" class="tasks-switch__item">Завтра</a>
-                <a href="/" class="tasks-switch__item">Просроченные</a>
+                <a href="/" class="tasks-switch__item <?php if (!$taksFilterDate) {
+                    print('tasks-switch__item--active');} ?>">Все задачи</a>
+                <a href="/index.php?date=today" class="tasks-switch__item <?php if ($taksFilterDate == 'today') {
+                    print('tasks-switch__item--active');} ?>">Повестка дня</a>
+                <a href="/index.php?date=tomorrow" class="tasks-switch__item <?php if ($taksFilterDate == 'tomorrow') {
+                    print('tasks-switch__item--active');} ?>">Завтра</a>
+                <a href="/index.php?date=outdated" class="tasks-switch__item <?php if ($taksFilterDate == 'outdated') {
+                    print('tasks-switch__item--active');} ?>">Просроченные</a>
             </nav>
 
             <label class="checkbox">
@@ -30,17 +34,17 @@
         <table class="tasks">
             <?php foreach ($tasksList as $task): ?>
                 <?php if (!$show_complete_tasks && $task['status']) { continue; } ?>
-                <?php if ($currentCategoryId !== null && ($task['category_id'] !== $currentCategoryId)) { continue; } ?>
+                <?php if ($currentCategoryId !== null && ($task['category_id'] != $currentCategoryId)) { continue; } ?>
 
                 <tr class="tasks__item task <?php if ($task['status']) {
                     print('task--completed');
                 } ?>">
                     <td class="task__select">
                         <label class="checkbox task__checkbox">
-                            <?php if ($task['status']): ?>
-                                <input class="checkbox__input visually-hidden" type="checkbox" checked>
+                            <?php if ($task['status'] == 1): ?>
+                                <input class="checkbox__input visually-hidden" type="checkbox" checked value="<?php print($task['id']); ?>">
                             <?php else: ?>
-                                <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="1">
+                                <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="<?php print($task['id']); ?>">
                             <?php endif; ?>
                             <span class="checkbox__text">
                                         <?php print($task['name']); ?>

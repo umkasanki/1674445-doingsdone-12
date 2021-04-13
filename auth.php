@@ -1,6 +1,7 @@
 <?php
-require ('helpers.php');
 session_start();
+
+require ('helpers.php');
 
 $pageTitle = 'Авторизация';
 $user = [];

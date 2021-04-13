@@ -87,49 +87,12 @@ function validateEmail($name) {
 //}
 
 $errors = [];
-$rules = [
-    'name' => function() {
-        return validateFilled('name');
-    },
-    'project' => function() {
-        // не понял как ошибку поправить. видимо что-то с областью видимости
-        // return validateCategory();
-        return validateFilled('project');
-    },
-    'date' => function() {
-        if (!is_date_valid($_POST['date'])) {
-            return 'Выберите дату';
-        }
-
-        $taskExpireDate = date_create_from_format('Y-m-d', $_POST['date']);
-        $currDate = date_create('now');
-
-        if ($taskExpireDate < $currDate) {
-            return 'Выберите корректную дату';
-        }
-    },
-    'file' => function() {
-        if (isset($_FILES['file'])) {
-            if ($_FILES['file']['size'] > 200000) {
-                return "Максимальный размер файла: 200Кб";
-            }
-        }
-    },
-];
-
-//var_dump( strtotime('2012-03-25') );
-
 foreach ($_POST as $key => $value) {
-    if (isset($rules[$key])) {
-        $rule = $rules[$key];
-        $errors[$key] = $rule($value);
-    }
-}
-
-foreach ($_FILES as $key => $value) {
-    if (isset($rules[$key])) {
-        $rule = $rules[$key];
-        $errors[$key] = $rule($value);
+    if ($key == 'name') {
+        $len = strlen($_POST[$key]);
+        if ($len < 1) {
+            $errors[$key] = 'Введите название проекта';
+        }
     }
 }
 
@@ -137,21 +100,16 @@ $errors = array_filter($errors);
 
 // отправка запросов
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && count($errors) === 0) {
-    $currDate = date_format(date_create('now'), 'Y-m-d');
-    $addTaskQr = "INSERT INTO `tasks` (publish_date, status, name, file_url, expire_date, user_id, category_id)
-                  VALUES (?, ?, ?, ?, ?, ?, ?)";
+    $addTaskQr = "INSERT INTO `categories` (cat_name, user_id)
+                  VALUES (?, ?)";
 
     $stmp = mysqli_prepare($conn, $addTaskQr);
 
     $name = getPostVal('name');
-    $date = getPostVal('date');
-    $project = getPostVal('project');
-    $status = 0;
-    $userId = 5;
-    $fileUrl = getFilesVal('file')['fileUrl'];
+    $userId = $userId;
 
-    mysqli_stmt_bind_param($stmp, 'sisssii',
-        $currDate, $status, $name, $fileUrl, $date, $userId, $project);
+    mysqli_stmt_bind_param($stmp, 'si',
+        $name, $userId);
 
     $addTaskQrResult = mysqli_stmt_execute($stmp);
 
@@ -159,7 +117,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && count($errors) === 0) {
         $error = mysqli_error($conn);
         print("Ошибка MySQL: " . $error);
     } else {
-        header("Location: index.php"); exit;
+        print ('project added');
     }
 }
 
@@ -169,7 +127,7 @@ $asideContent = include_template('aside.php', [
     'tasksList' => $tasksList,
 ]);
 
-$mainContent = include_template('addTaskMain.php', [
+$mainContent = include_template('addProject.php', [
     'tasksCategories' => $tasksCategories,
     'tasksList' => $tasksList,
     'asideContent' => $asideContent,
