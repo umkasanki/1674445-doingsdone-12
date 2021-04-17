@@ -18,15 +18,16 @@ var $taskCheckboxes = document.getElementsByClassName('tasks');
 if ($taskCheckboxes.length) {
 
   $taskCheckboxes[0].addEventListener('change', function (event) {
-    if (event.target.classList.contains('task__checkbox')) {
+    // if (event.target.classList.contains('task__checkbox')) {
+      console.log(event.target);
       var el = event.target;
 
-      var is_checked = +el.checked;
+      var is_checked = el.checked ? 0 : 1;
       var task_id = el.getAttribute('value');
 
       var url = '/index.php?task_id=' + task_id + '&check=' + is_checked;
       window.location = url;
-    }
+    // }
   });
 }
 

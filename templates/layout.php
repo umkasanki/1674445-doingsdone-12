@@ -20,16 +20,20 @@
             </a>
 
             <div class="main-header__side">
-                <a class="main-header__side-item button button--plus open-modal" href="add.php">Добавить
-                    задачу</a>
+                <?php if (isset($_SESSION['username'])): ?>
+                    <a class="main-header__side-item button button--plus open-modal" href="add.php">Добавить
+                        задачу</a>
 
-                <div class="main-header__side-item user-menu">
-                    <div class="user-menu__data">
-                        <p>Константин</p>
+                    <div class="main-header__side-item user-menu">
+                        <div class="user-menu__data">
+                            <p><?php print ($_SESSION['username'] ?? 'test');?></p>
 
-                        <a href="#">Выйти</a>
+                            <a href="/logout.php">Выйти</a>
+                        </div>
                     </div>
-                </div>
+                <?php else: ?>
+                    <a class="main-header__side-item button button--transparent" href="/auth.php">Войти</a>
+                <?php endif; ?>
             </div>
         </header>
 
