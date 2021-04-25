@@ -67,7 +67,7 @@ $notificationDataSchema = array(
 );
 
 $userArr = array(
-    'roma' => array(
+    ('user' . '3') => array(
         'name' => 'Roma',
         'email' => 'roma@tishkin.com',
         'tasks' => array(
@@ -84,7 +84,7 @@ $userArr = array(
 );
 
 $notificationDataSchema = array_merge($notificationDataSchema, array(
-    'roma' => array(
+    ('user' . '3') => array(
         'name' => 'Roma',
         'email' => 'roma@tishkin.com',
         'tasks' => array(
@@ -101,47 +101,19 @@ $notificationDataSchema = array_merge($notificationDataSchema, array(
 ));
 
 dump($notificationDataSchema);
-print '<br>';
 
 foreach ($notificationDataSchema as $key => $value) {
-    print '<br>';
-    print $key;
+    print '<h3>new email</h3>';
+    print '<div>' . $value['name'] . '</div>';
+    print '<div>' . $value['email'] . '</div>';
+
+    foreach ($value['tasks'] as $task) {
+        print '<li>' . $task[0] . '</li>';
+        print '<li>' . $task[1] . '</li>';
+        print '<br>';
+    }
     print '<hr>';
-
-//    if (array_key_exists($key, $notificationDataSchema)) {
-//        print ('найдено ' . $key);
-//    } else {
-//        print ('не найдено ' . $key);
-//    }
-    print '<br>';
 }
-// test
-
-
-
-//print '$tasksByUser <hr>';
-//var_dump($tasksByUser);
-
-
-//var_dump($notificationData);
-
-//foreach ($notificationData as $key => $value) {
-//    var_dump($key);
-//    var_dump($notificationData[$key]['email']);
-////    var_dump($notificationData[$key]['tasks']);
-////    var_dump($notificationData[$key]);
-////    print $notificationData[$key]['email'];
-//    print '<br>';
-//    print '<br>';
-//
-//    foreach ($notificationData[$key]['tasks'] as $item) {
-//        var_dump($item);
-////        print '<br>';
-//    }
-//    print '<br>';
-//    print '<hr>';
-//
-//}
 
 //if (count($notificationData)) {
 //    // Create the Transport
