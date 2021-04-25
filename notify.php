@@ -37,6 +37,9 @@ else {
 $notificationData = array();
 
 // test
+print '<h2>$tasksData</h2>';
+dump($tasksData);
+
 $notificationDataSchema = array(
     'oleg' => array(
         'name' => 'Oleg',
@@ -102,6 +105,7 @@ $notificationDataSchema = array_merge($notificationDataSchema, array(
     ),
 ));
 
+print '<h2>$notificationDataSchema</h2>';
 dump($notificationDataSchema);
 
 foreach ($notificationDataSchema as $key => $value) {
@@ -120,27 +124,32 @@ foreach ($notificationDataSchema as $key => $value) {
 //dump($tasksData);
 
 foreach ($tasksData as $taskLine) {
-    if (!array_key_exists(('user' . $taskLine[0]), $tasksData)) {
+    $userHandler = 'user' . $taskLine[0];
+    if (!array_key_exists($userHandler, $tasksData)) {
         $notificationData = array_merge($notificationData, array(
-            ('user' . $taskLine[0]) => array(),
+            $userHandler => array(),
         ));
-        $notificationData[('user' . $taskLine[0])]['tasks'] = array();
+        $notificationData[$userHandler]['tasks'] = array();
     }
-    $notificationData[('user' . $taskLine[0])]['email'] = $taskLine[1];
-    $notificationData[('user' . $taskLine[0])]['name'] = $taskLine[2];
-    array_push($notificationData[('user' . $taskLine[0])]['tasks'], array(
+    $notificationData[$userHandler]['email'] = $taskLine[1];
+    $notificationData[$userHandler]['name'] = $taskLine[2];
+
+    $notificationData[$userHandler]['tasks'] = array_merge($notificationData[$userHandler]['tasks'], array(
         $taskLine[3],
         $taskLine[5]
     ));
 }
 
-foreach ($notificationData as $key => $value) {
+print '<h2>$notificationData</h2>';
+dump($notificationData);
+
+foreach ($notificationData as $userData) {
     print '<br>';
     print '<h3>new email</h3>';
-    print '<div>' . $value['name'] . '</div>';
-    print '<div>' . $value['email'] . '</div>';
+    print '<div>' . $userData['name'] . '</div>';
+    print '<div>' . $userData['email'] . '</div>';
 
-    foreach ($value['tasks'] as $task) {
+    foreach ($userData['tasks'] as $task) {
         print '<li>' . $task[0] . '</li>';
         print '<li>' . $task[1] . '</li>';
         print '<br>';
@@ -148,38 +157,35 @@ foreach ($notificationData as $key => $value) {
     print '<hr>';
 }
 
-dump($notificationData);
+if (count($notificationData)) {
+    // Create the Transport
+    $transport = (new Swift_SmtpTransport('phpdemo.ru', 25))
+        ->setUsername('keks@phpdemo.ru')
+        ->setPassword('htmlacademy')
+    ;
+    // Create the Mailer using your created Transport
+    $mailer = new Swift_Mailer($transport);
 
-//if (count($notificationData)) {
-//    // Create the Transport
-//    $transport = (new Swift_SmtpTransport('phpdemo.ru', 25))
-//        ->setUsername('keks@phpdemo.ru')
-//        ->setPassword('htmlacademy')
-//    ;
-//    // Create the Mailer using your created Transport
-//    $mailer = new Swift_Mailer($transport);
-//
-//    foreach ($notificationDataSchema as $key => $value) {
-//        try {
-//            // Create a message
-//            $message = new Swift_Message();
-//            $message->setSubject('Уведомление от сервиса «Дела в порядке');
-//            $message->setFrom(['keks@phpdemo.ru']);
-//            $message->addTo($notificationDataSchema[$key]['email']);
-//
-//            $messageText = '<b>Уважаемый, ' . $key . ' следующие задачи:</b><br>';
-//
-//            foreach ($notificationData[$userName]['tasks'] as $task) {
-//                $messageText .= ('- У вас запланирована задача' . $task[0] . ' на  ' . $task[1] . '<br>');
-//            }
-//            $message->setBody($messageText, 'text/html');
-//
-//            // Send the message
-////            $result = $mailer->send($message);
-//        } catch (Exception $e) {
-//            echo $e->getMessage();
-//        }
-//    }
-//}
+    foreach ($notificationData as $userData) {
+        try {
+            // Create a message
+            $message = new Swift_Message();
+            $message->setSubject('Уведомление от сервиса «Дела в порядке');
+            $message->setFrom(['keks@phpdemo.ru']);
+            $message->addTo($userData['email']);
+            $messageText = '<b>Уважаемый, ' . $userData['name'] . ' следующие задачи:</b><br>';
+
+            foreach ($userData['tasks'] as $task) {
+                $messageText .= ('- У вас запланирована задача' . $task[0] . ' на  ' . $task[1] . '<br>');
+            }
+
+            $message->setBody($messageText, 'text/html');
+            $result = $mailer->send($message);
+
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+    }
+}
 
 ?>
