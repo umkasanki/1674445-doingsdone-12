@@ -12,7 +12,7 @@ $show_complete_tasks = 1;
 if (isset($_SESSION['userid'])) {
     $userId = $_SESSION['userid'];
 } else {
-    header("Location: auth.php"); exit;
+    header("Location: guest.php"); exit;
 }
 
 // db queries

@@ -116,8 +116,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && count($errors) === 0) {
     if (!$addTaskQrResult) {
         $error = mysqli_error($conn);
         print("Ошибка MySQL: " . $error);
-    } else {
-        print ('project added');
     }
 }
 
