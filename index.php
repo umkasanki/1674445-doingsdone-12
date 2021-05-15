@@ -16,7 +16,7 @@ if (isset($_SESSION['userid'])) {
 }
 
 // db queries
-$conn = mysqli_connect('127.0.0.1', 'mysql', 'mysql', 'doit');
+$conn = mysqli_connect('127.0.0.1', 'mysql', 'mysql', 'doingsdone');
 if ($conn === false) {
     print_r('DB connection error' . mysqli_connect_error());
 }

@@ -3,7 +3,7 @@ require_once 'vendor/autoload.php';
 require_once 'DbHelper.php';
 require_once 'helpers.php';
 
-$dbHelper = new DbHelper("mysql", "mysql", "127.0.0.1", "doit");
+$dbHelper = new DbHelper("mysql", "mysql", "127.0.0.1", "doingsdone");
 
 $tasksData = null;
 
