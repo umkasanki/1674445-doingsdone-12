@@ -21,8 +21,8 @@ $get_categories_stmt = mysqli_prepare($conn, $get_categories_sql);
 mysqli_stmt_bind_param($get_categories_stmt, 'i', $user_id);
 mysqli_stmt_execute($get_categories_stmt);
 
-$getCategoriesRes = mysqli_stmt_get_result($get_categories_stmt);
-$tasksCategories = mysqli_fetch_all($getCategoriesRes, MYSQLI_ASSOC);
+$get_categories_result = mysqli_stmt_get_result($get_categories_stmt);
+$tasksCategories = mysqli_fetch_all($get_categories_result, MYSQLI_ASSOC);
 
 $taksFilterDate = filter_input(INPUT_GET, 'date', FILTER_SANITIZE_STRING);
 if ($taksFilterDate == 'outdated') {
