@@ -40,13 +40,13 @@ $getTasksStmt = mysqli_prepare($conn, $getTasksSql);
 mysqli_stmt_bind_param($getTasksStmt, 'i', $user_id);
 mysqli_stmt_execute($getTasksStmt);
 $getTasksRes = mysqli_stmt_get_result($getTasksStmt);
-$tasksList = mysqli_fetch_all($getTasksRes, MYSQLI_ASSOC);
+$tasks_list = mysqli_fetch_all($getTasksRes, MYSQLI_ASSOC);
 // db queries end
 
-function getTacksCount(array $tasksList = [], int $taskCategoryId = 0) {
+function getTacksCount(array $tasks_list = [], int $taskCategoryId = 0) {
     $tasksCount = 0;
 
-    foreach ($tasksList as $task) {
+    foreach ($tasks_list as $task) {
         if ($task['category_id'] == $taskCategoryId) {
             $tasksCount++;
         }
@@ -68,13 +68,13 @@ if ($searchQuery) {
     mysqli_stmt_bind_param($stmt, 's', $searchQuery);
     mysqli_stmt_execute($stmt);
     $res = mysqli_stmt_get_result($stmt);
-    $tasksList = mysqli_fetch_all($res, MYSQLI_ASSOC);
+    $tasks_list = mysqli_fetch_all($res, MYSQLI_ASSOC);
 }
 
 // show 404 if count of tasks in the current category < 1
 $setNotFound = true;
 
-foreach ($tasksList as $task) {
+foreach ($tasks_list as $task) {
 //    print('<br>');
 //    print('catid' . ' - ' . $task['category_id'] . ' - ' . $currentCategoryId);
     if ($task['category_id'] === $currentCategoryId) {
@@ -105,13 +105,13 @@ if ($currentTaskId) {
 
 $asideContent = include_template('aside.php', [
     'tasks_categories' => $tasks_categories,
-    'tasksList' => $tasksList,
+    'tasks_list' => $tasks_list,
 ]);
 
 $mainContent = include_template('main.php', [
     'show_complete_tasks' => $show_complete_tasks,
     'tasks_categories' => $tasks_categories,
-    'tasksList' => $tasksList,
+    'tasks_list' => $tasks_list,
     'asideContent' => $asideContent,
     'currentCategoryId' => $currentCategoryId,
     'taksFilterDate' => $taksFilterDate,

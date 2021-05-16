@@ -32,7 +32,7 @@
         </div>
 
         <table class="tasks">
-            <?php foreach ($tasksList as $task): ?>
+            <?php foreach ($tasks_list as $task): ?>
                 <?php if (!$show_complete_tasks && $task['status']) { continue; } ?>
                 <?php if ($currentCategoryId !== null && ($task['category_id'] != $currentCategoryId)) { continue; } ?>
 
@@ -66,7 +66,7 @@
                 </tr>
             <?php endforeach; ?>
 
-            <?php if(!count($tasksList)): ?>
+            <?php if(!count($tasks_list)): ?>
                 <p>Ничего не найдено</p>
             <?php endif; ?>
         </table>

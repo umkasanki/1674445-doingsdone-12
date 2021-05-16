@@ -26,13 +26,13 @@ $getTasksStmt = mysqli_prepare($conn, $getTasksSql);
 mysqli_stmt_bind_param($getTasksStmt, 'i', $user_id);
 mysqli_stmt_execute($getTasksStmt);
 $getTasksRes = mysqli_stmt_get_result($getTasksStmt);
-$tasksList = mysqli_fetch_all($getTasksRes, MYSQLI_ASSOC);
+$tasks_list = mysqli_fetch_all($getTasksRes, MYSQLI_ASSOC);
 // db queries end
 
-function getTacksCount(array $tasksList = [], int $taskCategoryId = 0) {
+function getTacksCount(array $tasks_list = [], int $taskCategoryId = 0) {
     $tasksCount = 0;
 
-    foreach ($tasksList as $task) {
+    foreach ($tasks_list as $task) {
         if ($task['category_id'] == $taskCategoryId) {
             $tasksCount++;
         }
@@ -160,12 +160,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && count($errors) === 0) {
 // шаблонизация
 $asideContent = include_template('aside.php', [
     'tasks_categories' => $tasks_categories,
-    'tasksList' => $tasksList,
+    'tasks_list' => $tasks_list,
 ]);
 
 $mainContent = include_template('addTaskMain.php', [
     'tasks_categories' => $tasks_categories,
-    'tasksList' => $tasksList,
+    'tasks_list' => $tasks_list,
     'asideContent' => $asideContent,
     'errors' => $errors,
 ]);

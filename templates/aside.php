@@ -12,7 +12,7 @@
                         </a>
                         <span class="main-navigation__list-item-count">
                                         <?php
-                                        print(getTacksCount($tasksList, $category['cat_id']));
+                                        print(getTacksCount($tasks_list, $category['cat_id']));
                                         ?>
                                     </span>
                     </li>
