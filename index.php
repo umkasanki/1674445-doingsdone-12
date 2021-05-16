@@ -48,12 +48,12 @@ $current_category_id = filter_input(INPUT_GET, 'category', FILTER_SANITIZE_NUMBE
 
 // Search
 
-$searchQuery = filter_input(INPUT_GET, 'q', FILTER_SANITIZE_URL);
+$search_query = filter_input(INPUT_GET, 'q', FILTER_SANITIZE_URL);
 
-if ($searchQuery) {
+if ($search_query) {
     $sql = "SELECT * FROM `tasks` WHERE MATCH(name) AGAINST(?)";
     $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, 's', $searchQuery);
+    mysqli_stmt_bind_param($stmt, 's', $search_query);
     mysqli_stmt_execute($stmt);
     $res = mysqli_stmt_get_result($stmt);
     $tasks_list = mysqli_fetch_all($res, MYSQLI_ASSOC);
