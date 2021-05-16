@@ -163,7 +163,7 @@ $aside_content = include_template('aside.php', [
     'tasks_list' => $tasks_list,
 ]);
 
-$mainContent = include_template('addTaskMain.php', [
+$main_content = include_template('addTaskMain.php', [
     'tasks_categories' => $tasks_categories,
     'tasks_list' => $tasks_list,
     'aside_content' => $aside_content,
@@ -172,7 +172,7 @@ $mainContent = include_template('addTaskMain.php', [
 
 $layout_content = include_template('layout.php', [
     'page_title' => $page_title,
-    'mainContent' => $mainContent,
+    'main_content' => $main_content,
 ]);
 
 print($layout_content);

@@ -75,13 +75,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && count($errors) === 0) {
 
 //templating
 $aside_content = include_template('aside.php');
-$mainContent = include_template('registerMain.php', [
+$main_content = include_template('registerMain.php', [
     'aside_content' => $aside_content,
     'errors' => $errors,
 ]);
 $layout_content = include_template('layout.php', [
     'page_title' => $page_title,
-    'mainContent' => $mainContent,
+    'main_content' => $main_content,
 ]);
 
 print($layout_content);

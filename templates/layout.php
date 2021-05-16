@@ -37,7 +37,7 @@
             </div>
         </header>
 
-        <?php print($mainContent); ?>
+        <?php print($main_content); ?>
     </div>
 </div>
 

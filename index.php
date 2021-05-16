@@ -108,7 +108,7 @@ $aside_content = include_template('aside.php', [
     'tasks_list' => $tasks_list,
 ]);
 
-$mainContent = include_template('main.php', [
+$main_content = include_template('main.php', [
     'show_complete_tasks' => $show_complete_tasks,
     'tasks_categories' => $tasks_categories,
     'tasks_list' => $tasks_list,
@@ -119,7 +119,7 @@ $mainContent = include_template('main.php', [
 
 $layout_content = include_template('layout.php', [
     'page_title' => $page_title,
-    'mainContent' => $mainContent,
+    'main_content' => $main_content,
 ]);
 
 
