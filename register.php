@@ -51,21 +51,20 @@ foreach ($_POST as $key => $value) {
     }
 }
 
-
 $errors = array_filter($errors);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && count($errors) === 0) {
     $email = get_post_val('email');
     $name = get_post_val('name');
-    $passwordHash = password_hash(get_post_val('password'), PASSWORD_DEFAULT);
+    $password_hash = password_hash(get_post_val('password'), PASSWORD_DEFAULT);
 
-    $addUserQr = "INSERT INTO `users` (email, name, password)
+    $add_user_query = "INSERT INTO `users` (email, name, password)
                   VALUES (?, ?, ?)";
-    $stmp = mysqli_prepare($conn, $addUserQr);
-    mysqli_stmt_bind_param($stmp, 'sss',$email, $name, $passwordHash);
-    $addUserQrRes = mysqli_stmt_execute($stmp);
 
-    if (!$addUserQrRes) {
+    $stmp = db_get_prepare_stmt($conn, $add_user_query, [$email, $name, $password_hash]);
+    $add_user_query_res = mysqli_stmt_execute($stmp);
+
+    if (!$add_user_query_res) {
         $error = mysqli_error($conn);
         print("Ошибка MySQL: " . $error);
     } else {
