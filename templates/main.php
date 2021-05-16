@@ -55,8 +55,8 @@
                     <td class="task__file">
                         <?php if ($task['file_url']): ?>
                             <?php
-                                $fileUrlArray = explode("/", $task['file_url']);
-                                $file_name = $fileUrlArray[count($fileUrlArray) - 1];
+                                $file_url_array = explode("/", $task['file_url']);
+                                $file_name = $file_url_array[count($file_url_array) - 1];
                             ?>
                             <a class="download-link" href="<?php print($task['file_url']); ?>"><?php print($file_name); ?></a>
                         <?php endif; ?>

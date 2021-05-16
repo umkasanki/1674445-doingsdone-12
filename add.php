@@ -28,16 +28,16 @@ $tasks_list = mysqli_fetch_all($get_tasks_res, MYSQLI_ASSOC);
 // обработка формы
 if (isset($_FILES['file'])) {
     $file_name = $_FILES['file']['name'];
-    $uploadPath = __DIR__ . '/uploads/';
-    $fileUrl = '/uploads/' . $file_name;
-    move_uploaded_file($_FILES['file']['tmp_name'], $uploadPath . $file_name);
+    $upload_path = __DIR__ . '/uploads/';
+    $file_url = '/uploads/' . $file_name;
+    move_uploaded_file($_FILES['file']['tmp_name'], $upload_path . $file_name);
 }
 
 function getFilesVal($name) {
     if (isset($_FILES[$name])) {
         $file_name = $_FILES[$name]['name'];
-        $fileUrl = '/uploads/' . $file_name;
-        return compact('file_name', 'fileUrl');
+        $file_url = '/uploads/' . $file_name;
+        return compact('file_name', 'file_url');
     }
     // @todo вопрос: нужен ли тут return?
 }
@@ -126,10 +126,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && count($errors) === 0) {
     $project = get_post_val('project');
     $status = 0;
     $user_id = 5;
-    $fileUrl = getFilesVal('file')['fileUrl'];
+    $file_url = getFilesVal('file')['file_url'];
 
     mysqli_stmt_bind_param($stmp, 'sisssii',
-        $currDate, $status, $name, $fileUrl, $date, $user_id, $project);
+        $currDate, $status, $name, $file_url, $date, $user_id, $project);
 
     $addTaskQrResult = mysqli_stmt_execute($stmp);
 
