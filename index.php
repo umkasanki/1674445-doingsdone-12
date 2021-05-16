@@ -70,10 +70,10 @@ foreach ($tasks_list as $task) {
 
 // invert tasks status
 // get data from url param
-$currentTaskId = filter_input(INPUT_GET, 'task_id', FILTER_SANITIZE_NUMBER_INT);
+$current_task_id = filter_input(INPUT_GET, 'task_id', FILTER_SANITIZE_NUMBER_INT);
 $currentTaskStatus = filter_input(INPUT_GET, 'check', FILTER_SANITIZE_NUMBER_INT);
 
-if ($currentTaskId) {
+if ($current_task_id) {
     if ($currentTaskStatus == 1) {
         $status = 0;
     } else {
@@ -81,7 +81,7 @@ if ($currentTaskId) {
     }
     $sql = "UPDATE `tasks` SET `status` = ? WHERE `id` = ?";
     $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, 'ii', $status, $currentTaskId);
+    mysqli_stmt_bind_param($stmt, 'ii', $status, $current_task_id);
     mysqli_stmt_execute($stmt);
     header("Location: index.php"); exit;
 }
