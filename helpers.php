@@ -143,6 +143,117 @@ function include_template($name, array $data = []) {
     return $result;
 }
 
-function getPostVal($name) {
-    return $_POST[$name] ?? "";
+
+/**
+ * Достаёт значение поля из массива POST
+ * @param $name - имя поля
+ * @return mixed|string
+ */
+function get_post_val($name) {
+    return htmlspecialchars($_POST[$name] ?? "");
 }
+
+/**
+ * Pretty var_dump
+ * Possibility to set a title, a background-color and a text color
+ */
+function dump($data, $title="", $background="#EEEEEE", $color="#000000"){
+
+    //=== Style
+    echo "
+    <style>
+        /* Styling pre tag */
+        pre {
+            padding:10px 20px;
+            white-space: pre-wrap;
+            white-space: -moz-pre-wrap;
+            white-space: -pre-wrap;
+            white-space: -o-pre-wrap;
+            word-wrap: break-word;
+        }
+
+        /* ===========================
+        == To use with XDEBUG
+        =========================== */
+        /* Source file */
+        pre small:nth-child(1) {
+            font-weight: bold;
+            font-size: 14px;
+            color: #CC0000;
+        }
+        pre small:nth-child(1)::after {
+            content: '';
+            position: relative;
+            width: 100%;
+            height: 20px;
+            left: 0;
+            display: block;
+            clear: both;
+        }
+
+        /* Separator */
+        pre i::after{
+            content: '';
+            position: relative;
+            width: 100%;
+            height: 15px;
+            left: 0;
+            display: block;
+            clear: both;
+            border-bottom: 1px solid grey;
+        }
+    </style>
+    ";
+
+    //=== Content
+    echo "<pre style='background:$background; color:$color; padding:10px 20px; border:2px inset $color'>";
+    echo    "<h2>$title</h2>";
+    var_dump($data);
+    echo "</pre>";
+
+}
+
+/**
+ * Устанавливает соединение
+ * @param string $db_name - Имя базы данных
+ * @return false|mixed|mysqli|null
+ */
+function db_connect($db_name) {
+    $conn = mysqli_connect('127.0.0.1', 'mysql', 'mysql', $db_name);
+    if ($conn === false) {
+        print_r('DB connection error' . mysqli_connect_error());
+    }
+    mysqli_set_charset($conn, 'utf8');
+    return $conn;
+}
+
+/**
+ * возвращает списовкасков
+ * @param array $tasks_list
+ * @param int $tasks_category_id
+ * @return int
+ */
+function get_tasks_count(array $tasks_list = [], int $tasks_category_id = 0) {
+    $tasksCount = 0;
+
+    foreach ($tasks_list as $task) {
+        if ($task['category_id'] == $tasks_category_id) {
+            $tasksCount++;
+        }
+    }
+
+    return $tasksCount;
+}
+
+/**
+ * проверяет сессию, редиректит гостей
+ */
+function check_user_session() {
+    if (isset($_SESSION['userid'])) {
+        $user_id = $_SESSION['userid'];
+    } else {
+        header("Location: auth.php");
+        exit;
+    }
+    return $user_id;
+};
