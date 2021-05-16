@@ -5,9 +5,7 @@ require ('helpers.php');
 
 $pageTitle = 'Главная';
 
-$show_complete_tasks = rand(0, 1);
-$show_complete_tasks = 1;
-
+$show_complete_tasks = filter_input(INPUT_GET, 'show_completed', FILTER_SANITIZE_STRING);
 
 if (isset($_SESSION['userid'])) {
     $userId = $_SESSION['userid'];
