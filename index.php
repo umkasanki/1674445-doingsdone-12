@@ -63,8 +63,6 @@ if ($search_query) {
 $setNotFound = true;
 
 foreach ($tasks_list as $task) {
-//    print('<br>');
-//    print('catid' . ' - ' . $task['category_id'] . ' - ' . $current_category_id);
     if ($task['category_id'] === $current_category_id) {
         $setNotFound = false;
     }
@@ -81,8 +79,6 @@ if ($currentTaskId) {
     } else {
         $status = 1;
     }
-//    print('$currentTaskStatus' . ' ' . $currentTaskStatus . '<br>');
-//    print('$status' . ' ' . $status . '<br>');
     $sql = "UPDATE `tasks` SET `status` = ? WHERE `id` = ?";
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, 'ii', $status, $currentTaskId);
