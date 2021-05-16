@@ -16,12 +16,12 @@ if (isset($_SESSION['userid'])) {
 // db queries
 $conn = db_connect('doingsdone');
 
-$getCategoriesSql = "SELECT * FROM `categories` WHERE `user_id` = ?";
-$getCategoriesStmt = mysqli_prepare($conn, $getCategoriesSql);
-mysqli_stmt_bind_param($getCategoriesStmt, 'i', $userId);
-mysqli_stmt_execute($getCategoriesStmt);
+$get_categories_sql = "SELECT * FROM `categories` WHERE `user_id` = ?";
+$get_categories_stmt = mysqli_prepare($conn, $get_categories_sql);
+mysqli_stmt_bind_param($get_categories_stmt, 'i', $userId);
+mysqli_stmt_execute($get_categories_stmt);
 
-$getCategoriesRes = mysqli_stmt_get_result($getCategoriesStmt);
+$getCategoriesRes = mysqli_stmt_get_result($get_categories_stmt);
 $tasksCategories = mysqli_fetch_all($getCategoriesRes, MYSQLI_ASSOC);
 
 $taksFilterDate = filter_input(INPUT_GET, 'date', FILTER_SANITIZE_STRING);
