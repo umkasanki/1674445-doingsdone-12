@@ -24,13 +24,13 @@ mysqli_stmt_execute($get_categories_stmt);
 $get_categories_result = mysqli_stmt_get_result($get_categories_stmt);
 $tasks_categories = mysqli_fetch_all($get_categories_result, MYSQLI_ASSOC);
 
-$taksFilterDate = filter_input(INPUT_GET, 'date', FILTER_SANITIZE_STRING);
-if ($taksFilterDate == 'outdated') {
+$tasks_filter_date = filter_input(INPUT_GET, 'date', FILTER_SANITIZE_STRING);
+if ($tasks_filter_date == 'outdated') {
     $getTasksSql = "SELECT * FROM `tasks` WHERE `user_id` = ? and expire_date < CURDATE()";
-} elseif ($taksFilterDate == 'today') {
+} elseif ($tasks_filter_date == 'today') {
     $getTasksSql = "SELECT * FROM `tasks` WHERE `user_id` = ? and
                             (expire_date = CURRENT_DATE())";
-} elseif ($taksFilterDate == 'tomorrow') {
+} elseif ($tasks_filter_date == 'tomorrow') {
     $getTasksSql = "SELECT * FROM `tasks` WHERE `user_id` = ? and
                             (expire_date < DATE_ADD(NOW(), INTERVAL 1 DAY) and expire_date > CURDATE())";
 } else {
@@ -114,7 +114,7 @@ $mainContent = include_template('main.php', [
     'tasks_list' => $tasks_list,
     'aside_content' => $aside_content,
     'current_category_id' => $current_category_id,
-    'taksFilterDate' => $taksFilterDate,
+    'tasks_filter_date' => $tasks_filter_date,
 ]);
 
 $layout_content = include_template('layout.php', [

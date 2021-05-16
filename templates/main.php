@@ -12,13 +12,13 @@
 
         <div class="tasks-controls">
             <nav class="tasks-switch">
-                <a href="/" class="tasks-switch__item <?php if (!$taksFilterDate) {
+                <a href="/" class="tasks-switch__item <?php if (!$tasks_filter_date) {
                     print('tasks-switch__item--active');} ?>">Все задачи</a>
-                <a href="/index.php?date=today" class="tasks-switch__item <?php if ($taksFilterDate == 'today') {
+                <a href="/index.php?date=today" class="tasks-switch__item <?php if ($tasks_filter_date == 'today') {
                     print('tasks-switch__item--active');} ?>">Повестка дня</a>
-                <a href="/index.php?date=tomorrow" class="tasks-switch__item <?php if ($taksFilterDate == 'tomorrow') {
+                <a href="/index.php?date=tomorrow" class="tasks-switch__item <?php if ($tasks_filter_date == 'tomorrow') {
                     print('tasks-switch__item--active');} ?>">Завтра</a>
-                <a href="/index.php?date=outdated" class="tasks-switch__item <?php if ($taksFilterDate == 'outdated') {
+                <a href="/index.php?date=outdated" class="tasks-switch__item <?php if ($tasks_filter_date == 'outdated') {
                     print('tasks-switch__item--active');} ?>">Просроченные</a>
             </nav>
 
