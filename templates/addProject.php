@@ -2,7 +2,7 @@
 //    var_dump($errors['name']);
 ?>
 <div class="content">
-    <?php print($asideContent); ?>
+    <?php print($aside_content); ?>
 
     <main class="content__main">
         <h2 class="content__main-heading">Добавление проекта</h2>

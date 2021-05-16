@@ -158,7 +158,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && count($errors) === 0) {
 }
 
 // шаблонизация
-$asideContent = include_template('aside.php', [
+$aside_content = include_template('aside.php', [
     'tasks_categories' => $tasks_categories,
     'tasks_list' => $tasks_list,
 ]);
@@ -166,7 +166,7 @@ $asideContent = include_template('aside.php', [
 $mainContent = include_template('addTaskMain.php', [
     'tasks_categories' => $tasks_categories,
     'tasks_list' => $tasks_list,
-    'asideContent' => $asideContent,
+    'aside_content' => $aside_content,
     'errors' => $errors,
 ]);
 

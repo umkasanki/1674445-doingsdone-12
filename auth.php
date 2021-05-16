@@ -72,11 +72,11 @@ if (isset($_SESSION['userid'])) {
 
 
 //templating
-$asideContent = include_template('aside.php', [
+$aside_content = include_template('aside.php', [
     'user' => $user,
 ]);
 $mainContent = include_template('authMain.php', [
-    'asideContent' => $asideContent,
+    'aside_content' => $aside_content,
     'errors' => $errors,
 ]);
 $layout_content = include_template('layout.php', [

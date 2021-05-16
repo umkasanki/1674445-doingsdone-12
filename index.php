@@ -103,7 +103,7 @@ if ($currentTaskId) {
 }
 // invert tasks status end
 
-$asideContent = include_template('aside.php', [
+$aside_content = include_template('aside.php', [
     'tasks_categories' => $tasks_categories,
     'tasks_list' => $tasks_list,
 ]);
@@ -112,7 +112,7 @@ $mainContent = include_template('main.php', [
     'show_complete_tasks' => $show_complete_tasks,
     'tasks_categories' => $tasks_categories,
     'tasks_list' => $tasks_list,
-    'asideContent' => $asideContent,
+    'aside_content' => $aside_content,
     'currentCategoryId' => $currentCategoryId,
     'taksFilterDate' => $taksFilterDate,
 ]);
