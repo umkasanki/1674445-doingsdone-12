@@ -69,8 +69,8 @@ $rules = [
     },
     'file' => function() {
         if (isset($_FILES['file'])) {
-            if ($_FILES['file']['size'] > 200000) {
-                return "Максимальный размер файла: 200Кб";
+            if ($_FILES['file']['size'] > 2000000) {
+                return "Максимальный размер файла: 2000Кб";
             }
         }
     }
@@ -98,18 +98,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && count($errors) === 0) {
     $addTaskQr = "INSERT INTO `tasks` (publish_date, status, name, file_url, expire_date, user_id, category_id)
                   VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-    $stmp = mysqli_prepare($conn, $addTaskQr);
+//    $stmp = mysqli_prepare($conn, $addTaskQr);
 
     $name = get_post_val('name');
     $date = get_post_val('date');
     $project = get_post_val('project');
     $status = 0;
-    $user_id = 5;
     $file_url = get_files_value('file')['file_url'];
 
-    mysqli_stmt_bind_param($stmp, 'sisssii',
-        $currDate, $status, $name, $file_url, $date, $user_id, $project);
+//    mysqli_stmt_bind_param($stmp, 'sisssii',
+//        $currDate, $status, $name, $file_url, $date, $user_id, $project);
 
+    $stmp = db_get_prepare_stmt($conn, $addTaskQr, [$currDate, $status, $name, $file_url, $date, $user_id, $project]);
     $addTaskQrResult = mysqli_stmt_execute($stmp);
 
     if (!$addTaskQrResult) {
