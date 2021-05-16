@@ -12,13 +12,7 @@ if (isset($_SESSION['userid'])) {
 }
 
 // db queries
-$conn = mysqli_connect('127.0.0.1', 'mysql', 'mysql', 'doingsdone');
-if ($conn === false) {
-    print('DB connection error' . mysqli_connect_error());
-    exit();
-}
-
-mysqli_set_charset($conn, 'utf8');
+$conn = db_connect('doingsdone');
 
 $getCategoriesSql = "SELECT * FROM `categories` WHERE `user_id` = ?";
 $getCategoriesStmt = mysqli_prepare($conn, $getCategoriesSql);
