@@ -21,8 +21,8 @@ mysqli_stmt_execute($get_categories_stmt);
 $get_categories_result = mysqli_stmt_get_result($get_categories_stmt);
 $tasks_categories = mysqli_fetch_all($get_categories_result, MYSQLI_ASSOC);
 
-$getTasksSql = "SELECT * FROM `tasks` WHERE `user_id` = ?";
-$getTasksStmt = mysqli_prepare($conn, $getTasksSql);
+$get_tasks_sql = "SELECT * FROM `tasks` WHERE `user_id` = ?";
+$getTasksStmt = mysqli_prepare($conn, $get_tasks_sql);
 mysqli_stmt_bind_param($getTasksStmt, 'i', $user_id);
 mysqli_stmt_execute($getTasksStmt);
 $getTasksRes = mysqli_stmt_get_result($getTasksStmt);

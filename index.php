@@ -26,17 +26,17 @@ $tasks_categories = mysqli_fetch_all($get_categories_result, MYSQLI_ASSOC);
 
 $tasks_filter_date = filter_input(INPUT_GET, 'date', FILTER_SANITIZE_STRING);
 if ($tasks_filter_date == 'outdated') {
-    $getTasksSql = "SELECT * FROM `tasks` WHERE `user_id` = ? and expire_date < CURDATE()";
+    $get_tasks_sql = "SELECT * FROM `tasks` WHERE `user_id` = ? and expire_date < CURDATE()";
 } elseif ($tasks_filter_date == 'today') {
-    $getTasksSql = "SELECT * FROM `tasks` WHERE `user_id` = ? and
+    $get_tasks_sql = "SELECT * FROM `tasks` WHERE `user_id` = ? and
                             (expire_date = CURRENT_DATE())";
 } elseif ($tasks_filter_date == 'tomorrow') {
-    $getTasksSql = "SELECT * FROM `tasks` WHERE `user_id` = ? and
+    $get_tasks_sql = "SELECT * FROM `tasks` WHERE `user_id` = ? and
                             (expire_date < DATE_ADD(NOW(), INTERVAL 1 DAY) and expire_date > CURDATE())";
 } else {
-    $getTasksSql = "SELECT * FROM `tasks` WHERE `user_id` = ?";
+    $get_tasks_sql = "SELECT * FROM `tasks` WHERE `user_id` = ?";
 }
-$getTasksStmt = mysqli_prepare($conn, $getTasksSql);
+$getTasksStmt = mysqli_prepare($conn, $get_tasks_sql);
 mysqli_stmt_bind_param($getTasksStmt, 'i', $user_id);
 mysqli_stmt_execute($getTasksStmt);
 $getTasksRes = mysqli_stmt_get_result($getTasksStmt);
