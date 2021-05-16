@@ -26,7 +26,7 @@
                     print('form__input--error');
                 } ?>" name="project" id="project">
                     <option value="">Выберите проект</option>
-                    <?php foreach ($tasksCategories as $category): ?>
+                    <?php foreach ($tasks_categories as $category): ?>
                         <option value="<?php print($category['cat_id']);?>"
                             <?php if($category['cat_id'] == get_post_val('project')) { print('selected'); } ?>
                         >

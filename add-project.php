@@ -19,7 +19,7 @@ $get_categories_stmt = mysqli_prepare($conn, $get_categories_sql);
 mysqli_stmt_bind_param($get_categories_stmt, 'i', $user_id);
 mysqli_stmt_execute($get_categories_stmt);
 $get_categories_result = mysqli_stmt_get_result($get_categories_stmt);
-$tasksCategories = mysqli_fetch_all($get_categories_result, MYSQLI_ASSOC);
+$tasks_categories = mysqli_fetch_all($get_categories_result, MYSQLI_ASSOC);
 
 $getTasksSql = "SELECT * FROM `tasks` WHERE `user_id` = ?";
 $getTasksStmt = mysqli_prepare($conn, $getTasksSql);
@@ -72,7 +72,7 @@ function validateEmail($name) {
 
 // @todo вопрос: Для идентификатора выбранного проекта проверять, что он ссылается на реально существующий проект.
 //function validateCategory() {
-//    foreach ($tasksCategories as $value) {
+//    foreach ($tasks_categories as $value) {
 //        if ($value['cat_id'] == $_POST['project']) {
 //            return true;
 //        }
@@ -115,12 +115,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && count($errors) === 0) {
 
 // шаблонизация
 $asideContent = include_template('aside.php', [
-    'tasksCategories' => $tasksCategories,
+    'tasks_categories' => $tasks_categories,
     'tasksList' => $tasksList,
 ]);
 
 $mainContent = include_template('addProject.php', [
-    'tasksCategories' => $tasksCategories,
+    'tasks_categories' => $tasks_categories,
     'tasksList' => $tasksList,
     'asideContent' => $asideContent,
     'errors' => $errors,
