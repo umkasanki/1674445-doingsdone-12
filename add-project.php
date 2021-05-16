@@ -6,7 +6,7 @@ require ('helpers.php');
 $pageTitle = 'Новый таск';
 
 if (isset($_SESSION['userid'])) {
-    $userId = $_SESSION['userid'];
+    $user_id = $_SESSION['userid'];
 } else {
     header("Location: auth.php"); exit;
 }
@@ -16,14 +16,14 @@ $conn = db_connect('doingsdone');
 
 $get_categories_sql = "SELECT * FROM `categories` WHERE `user_id` = ?";
 $get_categories_stmt = mysqli_prepare($conn, $get_categories_sql);
-mysqli_stmt_bind_param($get_categories_stmt, 'i', $userId);
+mysqli_stmt_bind_param($get_categories_stmt, 'i', $user_id);
 mysqli_stmt_execute($get_categories_stmt);
 $getCategoriesRes = mysqli_stmt_get_result($get_categories_stmt);
 $tasksCategories = mysqli_fetch_all($getCategoriesRes, MYSQLI_ASSOC);
 
 $getTasksSql = "SELECT * FROM `tasks` WHERE `user_id` = ?";
 $getTasksStmt = mysqli_prepare($conn, $getTasksSql);
-mysqli_stmt_bind_param($getTasksStmt, 'i', $userId);
+mysqli_stmt_bind_param($getTasksStmt, 'i', $user_id);
 mysqli_stmt_execute($getTasksStmt);
 $getTasksRes = mysqli_stmt_get_result($getTasksStmt);
 $tasksList = mysqli_fetch_all($getTasksRes, MYSQLI_ASSOC);
@@ -100,10 +100,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && count($errors) === 0) {
     $stmp = mysqli_prepare($conn, $addTaskQr);
 
     $name = get_post_val('name');
-    $userId = $userId;
+    $user_id = $user_id;
 
     mysqli_stmt_bind_param($stmp, 'si',
-        $name, $userId);
+        $name, $user_id);
 
     $addTaskQrResult = mysqli_stmt_execute($stmp);
 
