@@ -6,7 +6,7 @@
             <ul class="main-navigation__list">
                 <?php
                 foreach ($tasks_categories as $category): ?>
-                    <li class="main-navigation__list-item <?php if ($currentCategoryId === $category['cat_id']): ?>main-navigation__list-item--active<?php endif; ?>">
+                    <li class="main-navigation__list-item <?php if ($current_category_id === $category['cat_id']): ?>main-navigation__list-item--active<?php endif; ?>">
                         <a class="main-navigation__list-item-link" href="<?php print('/index.php?category=' . $category['cat_id']); ?>">
                             <?php print($category['cat_name']); ?>
                         </a>

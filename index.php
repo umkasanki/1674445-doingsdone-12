@@ -56,7 +56,7 @@ function getTacksCount(array $tasks_list = [], int $taskCategoryId = 0) {
 }
 
 // get an id of current category from url param
-$currentCategoryId = filter_input(INPUT_GET, 'category', FILTER_SANITIZE_NUMBER_INT);
+$current_category_id = filter_input(INPUT_GET, 'category', FILTER_SANITIZE_NUMBER_INT);
 
 // Search
 
@@ -76,8 +76,8 @@ $setNotFound = true;
 
 foreach ($tasks_list as $task) {
 //    print('<br>');
-//    print('catid' . ' - ' . $task['category_id'] . ' - ' . $currentCategoryId);
-    if ($task['category_id'] === $currentCategoryId) {
+//    print('catid' . ' - ' . $task['category_id'] . ' - ' . $current_category_id);
+    if ($task['category_id'] === $current_category_id) {
         $setNotFound = false;
     }
 }
@@ -113,7 +113,7 @@ $mainContent = include_template('main.php', [
     'tasks_categories' => $tasks_categories,
     'tasks_list' => $tasks_list,
     'aside_content' => $aside_content,
-    'currentCategoryId' => $currentCategoryId,
+    'current_category_id' => $current_category_id,
     'taksFilterDate' => $taksFilterDate,
 ]);
 
