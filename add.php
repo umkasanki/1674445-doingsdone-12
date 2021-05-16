@@ -22,10 +22,10 @@ $get_categories_result = mysqli_stmt_get_result($get_categories_stmt);
 $tasks_categories = mysqli_fetch_all($get_categories_result, MYSQLI_ASSOC);
 
 $get_tasks_sql = "SELECT * FROM `tasks` WHERE `user_id` = ?";
-$getTasksStmt = mysqli_prepare($conn, $get_tasks_sql);
-mysqli_stmt_bind_param($getTasksStmt, 'i', $user_id);
-mysqli_stmt_execute($getTasksStmt);
-$get_tasks_res = mysqli_stmt_get_result($getTasksStmt);
+$get_task_stmt = mysqli_prepare($conn, $get_tasks_sql);
+mysqli_stmt_bind_param($get_task_stmt, 'i', $user_id);
+mysqli_stmt_execute($get_task_stmt);
+$get_tasks_res = mysqli_stmt_get_result($get_task_stmt);
 $tasks_list = mysqli_fetch_all($get_tasks_res, MYSQLI_ASSOC);
 // db queries end
 
