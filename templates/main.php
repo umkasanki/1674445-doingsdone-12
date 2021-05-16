@@ -42,12 +42,12 @@
                     <td class="task__select">
                         <label class="checkbox task__checkbox">
                             <?php if ($task['status'] == 1): ?>
-                                <input class="checkbox__input visually-hidden" type="checkbox" checked value="<?php print($task['id']); ?>">
+                                <input class="checkbox__input visually-hidden" type="checkbox" checked value="<?=htmlspecialchars($task['id']); ?>">
                             <?php else: ?>
-                                <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="<?php print($task['id']); ?>">
+                                <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="<?=htmlspecialchars($task['id']); ?>">
                             <?php endif; ?>
                             <span class="checkbox__text">
-                                        <?php print($task['name']); ?>
+                                        <?=htmlspecialchars($task['name']); ?>
                                     </span>
                         </label>
                     </td>
@@ -59,12 +59,12 @@
                                 $file_name = $file_url_array[count($file_url_array) - 1];
                             ?>
                             <?php if ($file_name): ?>
-                                <a class="download-link" href="<?php print($task['file_url']); ?>"><?php print($file_name); ?></a>
+                                <a class="download-link" href="<?=htmlspecialchars($task['file_url']); ?>"><?=htmlspecialchars($file_name); ?></a>
                             <?php endif; ?>
                         <?php endif; ?>
                     </td>
 
-                    <td class="task__date"><?php print($task['expire_date']); ?></td>
+                    <td class="task__date"><?=htmlspecialchars($task['expire_date']); ?></td>
                 </tr>
             <?php endforeach; ?>
 

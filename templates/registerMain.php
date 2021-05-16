@@ -10,7 +10,7 @@
 
                 <input class="form__input <?php if($errors['email']) {
                     print('form__input--error');
-                } ?>" type="text" name="email" id="email" value="<?php print(get_post_val('email')); ?>" placeholder="Введите e-mail">
+                } ?>" type="text" name="email" id="email" value="<?=htmlspecialchars(get_post_val('email')); ?>" placeholder="Введите e-mail">
                 <p class="form__message"><?php print($errors['email'] ?? ''); ?></p>
             </div>
 

@@ -13,7 +13,7 @@
 
                 <input class="form__input <?php if($errors['name']) {
                     print('form__input--error');
-                } ?>" type="text" name="name" id="name" value="<?php print(get_post_val('name')); ?>" placeholder="Введите название">
+                } ?>" type="text" name="name" id="name" value="<?=htmlspecialchars(get_post_val('name')); ?>" placeholder="Введите название">
                 <?php if (isset($errors['name'])): ?>
                     <p class="form__message"><?php print($errors['name']); ?></p>
                 <?php endif ?>

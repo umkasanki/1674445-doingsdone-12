@@ -13,7 +13,7 @@
 
                 <input class="form__input <?php if($errors['name']) {
                     print('form__input--error');
-                } ?>" type="text" name="name" id="name" value="<?php print(get_post_val('name')); ?>" placeholder="Введите название">
+                } ?>" type="text" name="name" id="name" value="<?=htmlspecialchars(get_post_val('name')); ?>" placeholder="Введите название">
                 <?php if (isset($errors['name'])): ?>
                     <p class="form__message"><?php print($errors['name']); ?></p>
                 <?php endif ?>
@@ -30,7 +30,7 @@
                         <option value="<?php print($category['cat_id']);?>"
                             <?php if($category['cat_id'] == get_post_val('project')) { print('selected'); } ?>
                         >
-                            <?php print($category['cat_name']); ?>
+                            <?=htmlspecialchars($category['cat_name']); ?>
                         </option>
                     <?php endforeach; ?>
                 </select>
@@ -56,7 +56,6 @@
                 <div class="form__input-file <?php if($errors['file']) {
                     print('form__input--error');
                 } ?>">
-                    <!-- @todo Вопрос что нужно передавать в value? почему не выдает ошибку если $_FILES пустой? -->
                     <input class="visually-hidden" type="file" name="file" id="file" value="<?php print(get_files_value('file')['file_name']); ?>">
 
                     <label class="button button--transparent" for="file">
