@@ -55,9 +55,9 @@ foreach ($_POST as $key => $value) {
 $errors = array_filter($errors);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && count($errors) === 0) {
-    $email = getPostVal('email');
-    $name = getPostVal('name');
-    $passwordHash = password_hash(getPostVal('password'), PASSWORD_DEFAULT);
+    $email = get_post_val('email');
+    $name = get_post_val('name');
+    $passwordHash = password_hash(get_post_val('password'), PASSWORD_DEFAULT);
 
     $addUserQr = "INSERT INTO `users` (email, name, password)
                   VALUES (?, ?, ?)";

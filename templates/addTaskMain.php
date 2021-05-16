@@ -13,7 +13,7 @@
 
                 <input class="form__input <?php if($errors['name']) {
                     print('form__input--error');
-                } ?>" type="text" name="name" id="name" value="<?php print(getPostVal('name')); ?>" placeholder="Введите название">
+                } ?>" type="text" name="name" id="name" value="<?php print(get_post_val('name')); ?>" placeholder="Введите название">
                 <?php if (isset($errors['name'])): ?>
                     <p class="form__message"><?php print($errors['name']); ?></p>
                 <?php endif ?>
@@ -28,7 +28,7 @@
                     <option value="">Выберите проект</option>
                     <?php foreach ($tasksCategories as $category): ?>
                         <option value="<?php print($category['cat_id']);?>"
-                            <?php if($category['cat_id'] == getPostVal('project')) { print('selected'); } ?>
+                            <?php if($category['cat_id'] == get_post_val('project')) { print('selected'); } ?>
                         >
                             <?php print($category['cat_name']); ?>
                         </option>
@@ -44,7 +44,7 @@
 
                 <input class="form__input form__input--date <?php if($errors['date']) {
                     print('form__input--error');
-                } ?>" type="text" name="date" id="date" value="<?php print(getPostVal('date')); ?>" placeholder="Введите дату в формате ГГГГ-ММ-ДД">
+                } ?>" type="text" name="date" id="date" value="<?php print(get_post_val('date')); ?>" placeholder="Введите дату в формате ГГГГ-ММ-ДД">
                 <?php if (isset($errors['date'])): ?>
                     <p class="form__message"><?php print($errors['date']); ?></p>
                 <?php endif ?>

@@ -99,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && count($errors) === 0) {
 
     $stmp = mysqli_prepare($conn, $addTaskQr);
 
-    $name = getPostVal('name');
+    $name = get_post_val('name');
     $userId = $userId;
 
     mysqli_stmt_bind_param($stmp, 'si',

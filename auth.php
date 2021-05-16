@@ -7,13 +7,8 @@ $pageTitle = 'Авторизация';
 $user = [];
 
 //get data
-$conn = mysqli_connect('127.0.0.1', 'mysql', 'mysql', 'doingsdone');
-if ($conn === false) {
-    print('DB connection error' . mysqli_connect_error());
-    exit();
-}
+$conn = db_connect('doingsdone');
 
-mysqli_set_charset($conn, 'utf8');
 $getUsersQr = "SELECT * FROM `users`";
 $getUsersQrRes = mysqli_query($conn, $getUsersQr);
 $usersList = mysqli_fetch_all($getUsersQrRes, MYSQLI_ASSOC);

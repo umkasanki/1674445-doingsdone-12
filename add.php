@@ -137,9 +137,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && count($errors) === 0) {
 
     $stmp = mysqli_prepare($conn, $addTaskQr);
 
-    $name = getPostVal('name');
-    $date = getPostVal('date');
-    $project = getPostVal('project');
+    $name = get_post_val('name');
+    $date = get_post_val('date');
+    $project = get_post_val('project');
     $status = 0;
     $userId = 5;
     $fileUrl = getFilesVal('file')['fileUrl'];
