@@ -39,8 +39,8 @@ if ($tasks_filter_date == 'outdated') {
 $get_tasks_stmt = mysqli_prepare($conn, $get_tasks_sql);
 mysqli_stmt_bind_param($get_tasks_stmt, 'i', $user_id);
 mysqli_stmt_execute($get_tasks_stmt);
-$getTasksRes = mysqli_stmt_get_result($get_tasks_stmt);
-$tasks_list = mysqli_fetch_all($getTasksRes, MYSQLI_ASSOC);
+$get_tasks_res = mysqli_stmt_get_result($get_tasks_stmt);
+$tasks_list = mysqli_fetch_all($get_tasks_res, MYSQLI_ASSOC);
 // db queries end
 
 function getTacksCount(array $tasks_list = [], int $taskCategoryId = 0) {

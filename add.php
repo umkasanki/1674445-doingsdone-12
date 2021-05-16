@@ -25,8 +25,8 @@ $get_tasks_sql = "SELECT * FROM `tasks` WHERE `user_id` = ?";
 $getTasksStmt = mysqli_prepare($conn, $get_tasks_sql);
 mysqli_stmt_bind_param($getTasksStmt, 'i', $user_id);
 mysqli_stmt_execute($getTasksStmt);
-$getTasksRes = mysqli_stmt_get_result($getTasksStmt);
-$tasks_list = mysqli_fetch_all($getTasksRes, MYSQLI_ASSOC);
+$get_tasks_res = mysqli_stmt_get_result($getTasksStmt);
+$tasks_list = mysqli_fetch_all($get_tasks_res, MYSQLI_ASSOC);
 // db queries end
 
 function getTacksCount(array $tasks_list = [], int $taskCategoryId = 0) {
