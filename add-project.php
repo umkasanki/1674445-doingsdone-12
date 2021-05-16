@@ -29,18 +29,6 @@ $get_tasks_res = mysqli_stmt_get_result($getTasksStmt);
 $tasks_list = mysqli_fetch_all($get_tasks_res, MYSQLI_ASSOC);
 // db queries end
 
-function getTacksCount(array $tasks_list = [], int $taskCategoryId = 0) {
-    $tasksCount = 0;
-
-    foreach ($tasks_list as $task) {
-        if ($task['category_id'] == $taskCategoryId) {
-            $tasksCount++;
-        }
-    }
-
-    return $tasksCount;
-}
-
 // обработка формы
 if (isset($_FILES['file'])) {
     $fileName = $_FILES['file']['name'];

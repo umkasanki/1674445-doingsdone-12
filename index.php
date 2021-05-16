@@ -43,18 +43,6 @@ $get_tasks_res = mysqli_stmt_get_result($get_tasks_stmt);
 $tasks_list = mysqli_fetch_all($get_tasks_res, MYSQLI_ASSOC);
 // db queries end
 
-function getTacksCount(array $tasks_list = [], int $taskCategoryId = 0) {
-    $tasksCount = 0;
-
-    foreach ($tasks_list as $task) {
-        if ($task['category_id'] == $taskCategoryId) {
-            $tasksCount++;
-        }
-    }
-
-    return $tasksCount;
-}
-
 // get an id of current category from url param
 $current_category_id = filter_input(INPUT_GET, 'category', FILTER_SANITIZE_NUMBER_INT);
 

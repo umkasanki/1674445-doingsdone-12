@@ -226,3 +226,21 @@ function db_connect($db_name) {
     mysqli_set_charset($conn, 'utf8');
     return $conn;
 }
+
+/**
+ * возвращает списовкасков
+ * @param array $tasks_list
+ * @param int $tasks_category_id
+ * @return int
+ */
+function get_tasks_count(array $tasks_list = [], int $tasks_category_id = 0) {
+    $tasksCount = 0;
+
+    foreach ($tasks_list as $task) {
+        if ($task['category_id'] == $tasks_category_id) {
+            $tasksCount++;
+        }
+    }
+
+    return $tasksCount;
+}
