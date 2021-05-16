@@ -143,7 +143,13 @@ function include_template($name, array $data = []) {
     return $result;
 }
 
-function getPostVal($name) {
+
+/**
+ * Достаёт значение поля из массива POST
+ * @param $name - имя поля
+ * @return mixed|string
+ */
+function get_post_val($name) {
     return $_POST[$name] ?? "";
 }
 
@@ -205,4 +211,18 @@ function dump($data, $title="", $background="#EEEEEE", $color="#000000"){
     var_dump($data);
     echo "</pre>";
 
+}
+
+/**
+ * Устанавливает соединение
+ * @param string $db_name - Имя базы данных
+ * @return false|mixed|mysqli|null
+ */
+function db_connect($db_name) {
+    $conn = mysqli_connect('127.0.0.1', 'mysql', 'mysql', $db_name);
+    if ($conn === false) {
+        print_r('DB connection error' . mysqli_connect_error());
+    }
+    mysqli_set_charset($conn, 'utf8');
+    return $conn;
 }
