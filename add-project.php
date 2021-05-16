@@ -5,11 +5,7 @@ require ('helpers.php');
 
 $page_title = 'Новый таск';
 
-if (isset($_SESSION['userid'])) {
-    $user_id = $_SESSION['userid'];
-} else {
-    header("Location: auth.php"); exit;
-}
+$user_id = check_user_session();
 
 // db queries
 $conn = db_connect('doingsdone');

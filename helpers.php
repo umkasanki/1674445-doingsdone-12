@@ -244,3 +244,16 @@ function get_tasks_count(array $tasks_list = [], int $tasks_category_id = 0) {
 
     return $tasksCount;
 }
+
+/**
+ * проверяет сессию, редиректит гостей
+ */
+function check_user_session() {
+    if (isset($_SESSION['userid'])) {
+        $user_id = $_SESSION['userid'];
+    } else {
+        header("Location: auth.php");
+        exit;
+    }
+    return $user_id;
+};
