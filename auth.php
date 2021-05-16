@@ -3,7 +3,7 @@ session_start();
 
 require ('helpers.php');
 
-$pageTitle = 'Авторизация';
+$page_title = 'Авторизация';
 $user = [];
 
 //get data
@@ -80,7 +80,7 @@ $mainContent = include_template('authMain.php', [
     'errors' => $errors,
 ]);
 $layout_content = include_template('layout.php', [
-    'pageTitle' => $pageTitle,
+    'page_title' => $page_title,
     'mainContent' => $mainContent,
     'user' => $user,
 ]);

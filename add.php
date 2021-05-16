@@ -3,7 +3,7 @@ session_start();
 
 require ('helpers.php');
 
-$pageTitle = 'Новый таск';
+$page_title = 'Новый таск';
 
 if (isset($_SESSION['userid'])) {
     $user_id = $_SESSION['userid'];
@@ -171,7 +171,7 @@ $mainContent = include_template('addTaskMain.php', [
 ]);
 
 $layout_content = include_template('layout.php', [
-    'pageTitle' => $pageTitle,
+    'page_title' => $page_title,
     'mainContent' => $mainContent,
 ]);
 

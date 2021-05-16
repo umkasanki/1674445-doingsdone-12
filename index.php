@@ -3,7 +3,7 @@ session_start();
 
 require ('helpers.php');
 
-$pageTitle = 'Главная';
+$page_title = 'Главная';
 
 $show_complete_tasks = filter_input(INPUT_GET, 'show_completed', FILTER_SANITIZE_STRING);
 
@@ -118,7 +118,7 @@ $mainContent = include_template('main.php', [
 ]);
 
 $layout_content = include_template('layout.php', [
-    'pageTitle' => $pageTitle,
+    'page_title' => $page_title,
     'mainContent' => $mainContent,
 ]);
 

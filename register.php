@@ -2,7 +2,7 @@
 session_start();
 
 require ('helpers.php');
-$pageTitle = 'Регистрация';
+$page_title = 'Регистрация';
 
 //get data
 $conn = db_connect('doingsdone');
@@ -80,7 +80,7 @@ $mainContent = include_template('registerMain.php', [
     'errors' => $errors,
 ]);
 $layout_content = include_template('layout.php', [
-    'pageTitle' => $pageTitle,
+    'page_title' => $page_title,
     'mainContent' => $mainContent,
 ]);
 
