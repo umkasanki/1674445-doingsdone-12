@@ -7,9 +7,9 @@ $page_title = 'Регистрация';
 //get data
 $conn = db_connect('doingsdone');
 
-$getUsersQr = "SELECT * FROM `users`";
-$getUsersQrRes = mysqli_query($conn, $getUsersQr);
-$usersList = mysqli_fetch_all($getUsersQrRes, MYSQLI_ASSOC);
+$get_users_query = "SELECT * FROM `users`";
+$get_users_query_result = mysqli_query($conn, $get_users_query);
+$usersList = mysqli_fetch_all($get_users_query_result, MYSQLI_ASSOC);
 
 // validation
 $errors = [];
