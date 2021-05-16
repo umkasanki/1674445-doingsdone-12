@@ -36,10 +36,10 @@ if ($tasks_filter_date == 'outdated') {
 } else {
     $get_tasks_sql = "SELECT * FROM `tasks` WHERE `user_id` = ?";
 }
-$getTasksStmt = mysqli_prepare($conn, $get_tasks_sql);
-mysqli_stmt_bind_param($getTasksStmt, 'i', $user_id);
-mysqli_stmt_execute($getTasksStmt);
-$getTasksRes = mysqli_stmt_get_result($getTasksStmt);
+$get_tasks_stmt = mysqli_prepare($conn, $get_tasks_sql);
+mysqli_stmt_bind_param($get_tasks_stmt, 'i', $user_id);
+mysqli_stmt_execute($get_tasks_stmt);
+$getTasksRes = mysqli_stmt_get_result($get_tasks_stmt);
 $tasks_list = mysqli_fetch_all($getTasksRes, MYSQLI_ASSOC);
 // db queries end
 
