@@ -71,10 +71,10 @@ foreach ($tasks_list as $task) {
 // invert tasks status
 // get data from url param
 $current_task_id = filter_input(INPUT_GET, 'task_id', FILTER_SANITIZE_NUMBER_INT);
-$currentTaskStatus = filter_input(INPUT_GET, 'check', FILTER_SANITIZE_NUMBER_INT);
+$current_task_status = filter_input(INPUT_GET, 'check', FILTER_SANITIZE_NUMBER_INT);
 
 if ($current_task_id) {
-    if ($currentTaskStatus == 1) {
+    if ($current_task_status == 1) {
         $status = 0;
     } else {
         $status = 1;
