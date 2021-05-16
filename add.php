@@ -61,9 +61,9 @@ $rules = [
         }
 
         $taskExpireDate = date_create_from_format('Y-m-d', $_POST['date']);
-        $currDate = date_create('now');
+        $curr_date = date_create('now');
 
-        if ($taskExpireDate < $currDate) {
+        if ($taskExpireDate < $curr_date) {
             return 'Выберите корректную дату';
         }
     },
@@ -94,11 +94,9 @@ $errors = array_filter($errors);
 
 // отправка запросов
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && count($errors) === 0) {
-    $currDate = date_format(date_create('now'), 'Y-m-d');
-    $addTaskQr = "INSERT INTO `tasks` (publish_date, status, name, file_url, expire_date, user_id, category_id)
+    $curr_date = date_format(date_create('now'), 'Y-m-d');
+    $add_task_query = "INSERT INTO `tasks` (publish_date, status, name, file_url, expire_date, user_id, category_id)
                   VALUES (?, ?, ?, ?, ?, ?, ?)";
-
-//    $stmp = mysqli_prepare($conn, $addTaskQr);
 
     $name = get_post_val('name');
     $date = get_post_val('date');
@@ -106,13 +104,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && count($errors) === 0) {
     $status = 0;
     $file_url = get_files_value('file')['file_url'];
 
-//    mysqli_stmt_bind_param($stmp, 'sisssii',
-//        $currDate, $status, $name, $file_url, $date, $user_id, $project);
 
-    $stmp = db_get_prepare_stmt($conn, $addTaskQr, [$currDate, $status, $name, $file_url, $date, $user_id, $project]);
-    $addTaskQrResult = mysqli_stmt_execute($stmp);
+    $stmp = db_get_prepare_stmt($conn, $add_task_query, [$curr_date, $status, $name, $file_url, $date, $user_id, $project]);
+    $add_task_queryResult = mysqli_stmt_execute($stmp);
 
-    if (!$addTaskQrResult) {
+    if (!$add_task_queryResult) {
         $error = mysqli_error($conn);
         print("Ошибка MySQL: " . $error);
     } else {
