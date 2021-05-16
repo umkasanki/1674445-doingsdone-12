@@ -31,17 +31,17 @@ $tasks_list = mysqli_fetch_all($get_tasks_res, MYSQLI_ASSOC);
 
 // обработка формы
 if (isset($_FILES['file'])) {
-    $fileName = $_FILES['file']['name'];
+    $file_name = $_FILES['file']['name'];
     $uploadPath = __DIR__ . '/uploads/';
-    $fileUrl = '/uploads/' . $fileName;
-    move_uploaded_file($_FILES['file']['tmp_name'], $uploadPath . $fileName);
+    $fileUrl = '/uploads/' . $file_name;
+    move_uploaded_file($_FILES['file']['tmp_name'], $uploadPath . $file_name);
 }
 
 function getFilesVal($name) {
     if (isset($_FILES[$name])) {
-        $fileName = $_FILES[$name]['name'];
-        $fileUrl = '/uploads/' . $fileName;
-        return compact('fileName', 'fileUrl');
+        $file_name = $_FILES[$name]['name'];
+        $fileUrl = '/uploads/' . $file_name;
+        return compact('file_name', 'fileUrl');
     }
     // @todo вопрос: нужен ли тут return?
 }
