@@ -48,14 +48,8 @@ $errors = array_filter($errors);
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && count($errors) === 0) {
     $add_category_query = "INSERT INTO `categories` (cat_name, user_id)
                   VALUES (?, ?)";
-
-    $stmp = mysqli_prepare($conn, $add_category_query);
-
     $name = get_post_val('name');
-
-    mysqli_stmt_bind_param($stmp, 'si',
-        $name, $user_id);
-
+    $stmp = db_get_prepare_stmt($conn, $add_category_query, [$name, $user_id]);
     $add_category_query_result = mysqli_stmt_execute($stmp);
 
     if (!$add_category_query_result) {

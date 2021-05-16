@@ -73,7 +73,7 @@ $rules = [
                 return "Максимальный размер файла: 200Кб";
             }
         }
-    },
+    }
 ];
 
 foreach ($_POST as $key => $value) {
