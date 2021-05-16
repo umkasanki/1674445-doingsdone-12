@@ -33,46 +33,27 @@ if (isset($_FILES['file'])) {
     move_uploaded_file($_FILES['file']['tmp_name'], $upload_path . $file_name);
 }
 
-function getFilesVal($name) {
+function get_files_value($name) {
     if (isset($_FILES[$name])) {
         $file_name = $_FILES[$name]['name'];
         $file_url = '/uploads/' . $file_name;
         return compact('file_name', 'file_url');
     }
-    // @todo вопрос: нужен ли тут return?
 }
 
-function validateFilled($name) {
+function validate_filled($name) {
     if (empty($_POST[$name])) {
         return "Это поле должно быть заполнено";
     }
 }
 
-function validateEmail($name) {
-    if (!filter_input(INPUT_POST, $name, FILTER_VALIDATE_EMAIL)) {
-        return "Введите корректный email";
-    }
-}
-
-// @todo вопрос: Для идентификатора выбранного проекта проверять, что он ссылается на реально существующий проект.
-//function validateCategory() {
-//    foreach ($tasks_categories as $value) {
-//        if ($value['cat_id'] == $_POST['project']) {
-//            return true;
-//        }
-//    }
-//    return 'Выберите проект';
-//}
-
 $errors = [];
 $rules = [
     'name' => function() {
-        return validateFilled('name');
+        return validate_filled('name');
     },
     'project' => function() {
-        // не понял как ошибку поправить. видимо что-то с областью видимости
-        // return validateCategory();
-        return validateFilled('project');
+        return validate_filled('project');
     },
     'date' => function() {
         if (!is_date_valid($_POST['date'])) {
@@ -94,8 +75,6 @@ $rules = [
         }
     },
 ];
-
-//var_dump( strtotime('2012-03-25') );
 
 foreach ($_POST as $key => $value) {
     if (isset($rules[$key])) {
@@ -126,7 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && count($errors) === 0) {
     $project = get_post_val('project');
     $status = 0;
     $user_id = 5;
-    $file_url = getFilesVal('file')['file_url'];
+    $file_url = get_files_value('file')['file_url'];
 
     mysqli_stmt_bind_param($stmp, 'sisssii',
         $currDate, $status, $name, $file_url, $date, $user_id, $project);
