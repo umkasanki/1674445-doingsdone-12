@@ -60,11 +60,11 @@ if ($search_query) {
 }
 
 // show 404 if count of tasks in the current category < 1
-$setNotFound = true;
+$set_not_found = true;
 
 foreach ($tasks_list as $task) {
     if ($task['category_id'] === $current_category_id) {
-        $setNotFound = false;
+        $set_not_found = false;
     }
 }
 
